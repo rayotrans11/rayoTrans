@@ -1,6 +1,6 @@
 workflows:
-  ios-testflight:
-    name: "Rayo Tracking"
+  ios-unsigned-ipa:
+    name: "Rayo Tracking - Unsigned IPA"
     max_build_duration: 60
     instance_type: mac_mini_m2
 
@@ -12,25 +12,12 @@ workflows:
           include: true
       cancel_previous_builds: true
 
-    # This must match the App Store Connect integration name in Codemagic.
-    integrations:
-      app_store_connect: codeteam
-
     environment:
       flutter: stable
-      # Xcode 27.1 includes the iOS SDK and simulator support needed to build
-      # and inspect the app on iPhone Duo.
-      xcode: "27.1"
+      xcode: latest
       cocoapods: default
       vars:
         BUNDLE_ID: com.rayo.transtrack
-      ios_signing:
-        # These are the reference names of the profile and certificate uploaded
-        # under Codemagic Team settings > codemagic.yaml settings > Code signing identities.
-        provisioning_profiles:
-          - TrackProf
-        certificates:
-          - Rayo
 
     scripts:
       - name: Get Flutter packages
@@ -41,19 +28,29 @@ workflows:
           cd ios
           pod install
 
-      - name: Set up code signing
-        script: xcode-project use-profiles
-
-      - name: Build signed Flutter IPA
+      - name: Build unsigned iOS Release App
         script: |
-          flutter build ipa --release \
-            --build-name=1.0.1 \
-            --build-number="$PROJECT_BUILD_NUMBER" \
-            --export-options-plist="$HOME/export_options.plist"
+          flutter build ios --release --no-codesign
+
+      - name: Package Unsigned IPA
+        script: |
+          APP_PATH=$(find build/ios/iphoneos -name "*.app" -type d | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: No .app bundle found!"
+            exit 1
+          fi
+          echo "Found app at: $APP_PATH"
+          mkdir -p build/Payload
+          cp -R "$APP_PATH" build/Payload/
+          cd build
+          zip -rq RayoTracking-unsigned.ipa Payload
+          rm -rf Payload
+          mkdir -p ios/ipa
+          mv RayoTracking-unsigned.ipa ios/ipa/
+          echo "Unsigned IPA successfully created at build/ios/ipa/RayoTracking-unsigned.ipa"
 
     artifacts:
       - build/ios/ipa/*.ipa
-      - build/ios/archive/*.xcarchive
       - /tmp/xcodebuild_logs/*.log
 
     publishing:
@@ -63,8 +60,3 @@ workflows:
         notify:
           success: true
           failure: true
-
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        # Add submit_to_app_store: true when the app record and store listing are ready.

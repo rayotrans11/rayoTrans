@@ -45,6 +45,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIRequiresFullScreen</key>
+	<false/>
+	<key>UIRequiresSplitScreenMultiTasking</key>
+	<false/>
+	<key>UIWindowSceneIsGeometryPreferencesEnabled</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Rayo Tracking uses the camera to scan parcel barcodes and QR codes. Images never leave your device.</string>
 	<key>NSFaceIDUsageDescription</key>

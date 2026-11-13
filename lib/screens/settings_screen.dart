@@ -25,7 +25,11 @@ class SettingsScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
               child: Text(
                 context.tr('settings'),
-                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, letterSpacing: -0.5),
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
               ),
             ),
           ),
@@ -43,26 +47,34 @@ class SettingsScreen extends StatelessWidget {
                       _textSettingTile(
                         context,
                         title: 'Company Name',
-                        value: settings.companyName.isNotEmpty ? settings.companyName : 'Not set',
+                        value: settings.companyName.isNotEmpty
+                            ? settings.companyName
+                            : 'Not set',
                         icon: CupertinoIcons.building_2_fill,
                         onTap: () => _editStringDialog(
                           context,
                           'Company Name',
                           settings.companyName,
-                          (v) => store.updateSettings(settings.copyWith(companyName: v)),
+                          (v) => store.updateSettings(
+                            settings.copyWith(companyName: v),
+                          ),
                         ),
                       ),
                       const Divider(height: 16),
                       _textSettingTile(
                         context,
                         title: 'Operator Name',
-                        value: settings.operatorName.isNotEmpty ? settings.operatorName : 'Dispatcher',
+                        value: settings.operatorName.isNotEmpty
+                            ? settings.operatorName
+                            : 'Dispatcher',
                         icon: CupertinoIcons.person_fill,
                         onTap: () => _editStringDialog(
                           context,
                           'Operator Name',
                           settings.operatorName,
-                          (v) => store.updateSettings(settings.copyWith(operatorName: v)),
+                          (v) => store.updateSettings(
+                            settings.copyWith(operatorName: v),
+                          ),
                         ),
                       ),
                       const Divider(height: 16),
@@ -75,7 +87,9 @@ class SettingsScreen extends StatelessWidget {
                           context,
                           'Code Prefix',
                           settings.codePrefix,
-                          (v) => store.updateSettings(settings.copyWith(codePrefix: v)),
+                          (v) => store.updateSettings(
+                            settings.copyWith(codePrefix: v),
+                          ),
                         ),
                       ),
                       const Divider(height: 16),
@@ -93,8 +107,12 @@ class SettingsScreen extends StatelessWidget {
                         value: settings.weightUnit.toUpperCase(),
                         icon: CupertinoIcons.gauge,
                         onTap: () {
-                          final next = settings.weightUnit == 'kg' ? 'lb' : 'kg';
-                          store.updateSettings(settings.copyWith(weightUnit: next));
+                          final next = settings.weightUnit == 'kg'
+                              ? 'lb'
+                              : 'kg';
+                          store.updateSettings(
+                            settings.copyWith(weightUnit: next),
+                          );
                         },
                       ),
                     ],
@@ -119,10 +137,21 @@ class SettingsScreen extends StatelessWidget {
                       const Divider(height: 16),
                       SwitchListTile(
                         contentPadding: EdgeInsets.zero,
-                        secondary: const Icon(CupertinoIcons.waveform_path, color: RayoColors.primaryBlue),
-                        title: const Text('Haptics Feedback', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                        secondary: const Icon(
+                          CupertinoIcons.waveform_path,
+                          color: RayoColors.primaryBlue,
+                        ),
+                        title: const Text(
+                          'Haptics Feedback',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
                         value: settings.haptics,
-                        onChanged: (val) => store.updateSettings(settings.copyWith(haptics: val)),
+                        onChanged: (val) => store.updateSettings(
+                          settings.copyWith(haptics: val),
+                        ),
                       ),
                     ],
                   ),
@@ -138,18 +167,37 @@ class SettingsScreen extends StatelessWidget {
                     children: [
                       SwitchListTile(
                         contentPadding: EdgeInsets.zero,
-                        secondary: const Icon(CupertinoIcons.lock_shield_fill, color: RayoColors.successGreen),
-                        title: Text(context.tr('app_lock'), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                        subtitle: const Text('Face ID / Touch ID on app launch', style: TextStyle(fontSize: 12)),
+                        secondary: const Icon(
+                          CupertinoIcons.lock_shield_fill,
+                          color: RayoColors.successGreen,
+                        ),
+                        title: Text(
+                          context.tr('app_lock'),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        subtitle: const Text(
+                          'Face ID / Touch ID on app launch',
+                          style: TextStyle(fontSize: 12),
+                        ),
                         value: settings.appLockEnabled,
                         onChanged: (val) async {
                           if (val) {
-                            final ok = await RayoServices.authenticateBiometrics('Enable Rayo App Lock');
+                            final ok =
+                                await RayoServices.authenticateBiometrics(
+                                  'Enable Rayo App Lock',
+                                );
                             if (ok) {
-                              store.updateSettings(settings.copyWith(appLockEnabled: true));
+                              store.updateSettings(
+                                settings.copyWith(appLockEnabled: true),
+                              );
                             }
                           } else {
-                            store.updateSettings(settings.copyWith(appLockEnabled: false));
+                            store.updateSettings(
+                              settings.copyWith(appLockEnabled: false),
+                            );
                           }
                         },
                       ),
@@ -211,9 +259,14 @@ class SettingsScreen extends StatelessWidget {
                     icon: CupertinoIcons.shield_lefthalf_fill,
                     color: RayoColors.successGreen,
                     onTap: () async {
-                      final uri = Uri.parse('https://rayostudio.blogspot.com/p/privacy-policy.html');
+                      final uri = Uri.parse(
+                        'https://rayostudio.blogspot.com/p/privacy-policy.html',
+                      );
                       if (await canLaunchUrl(uri)) {
-                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        await launchUrl(
+                          uri,
+                          mode: LaunchMode.externalApplication,
+                        );
                       }
                     },
                   ),
@@ -254,11 +307,26 @@ class SettingsScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 20, color: RayoColors.primaryBlue),
           const SizedBox(width: 12),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+          ),
           const Spacer(),
-          Text(value, style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6))),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 13,
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
+          ),
           const SizedBox(width: 6),
-          const Icon(CupertinoIcons.chevron_forward, size: 14, color: Colors.grey),
+          const Icon(
+            CupertinoIcons.chevron_forward,
+            size: 14,
+            color: Colors.grey,
+          ),
         ],
       ),
     );
@@ -277,7 +345,10 @@ class SettingsScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 20, color: RayoColors.primaryBlue),
           const SizedBox(width: 12),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+          ),
           const Spacer(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -285,10 +356,21 @@ class SettingsScreen extends StatelessWidget {
               color: RayoColors.primaryBlue.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: RayoColors.primaryBlue)),
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                color: RayoColors.primaryBlue,
+              ),
+            ),
           ),
           const SizedBox(width: 6),
-          const Icon(CupertinoIcons.chevron_forward, size: 14, color: Colors.grey),
+          const Icon(
+            CupertinoIcons.chevron_forward,
+            size: 14,
+            color: Colors.grey,
+          ),
         ],
       ),
     );
@@ -318,18 +400,36 @@ class SettingsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                Text(subtitle, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                ),
               ],
             ),
           ),
-          const Icon(CupertinoIcons.chevron_forward, size: 14, color: Colors.grey),
+          const Icon(
+            CupertinoIcons.chevron_forward,
+            size: 14,
+            color: Colors.grey,
+          ),
         ],
       ),
     );
   }
 
-  void _editStringDialog(BuildContext context, String title, String currentVal, Function(String) onSave) {
+  void _editStringDialog(
+    BuildContext context,
+    String title,
+    String currentVal,
+    Function(String) onSave,
+  ) {
     final c = TextEditingController(text: currentVal);
     showCupertinoDialog(
       context: context,
@@ -340,7 +440,10 @@ class SettingsScreen extends StatelessWidget {
           child: CupertinoTextField(controller: c),
         ),
         actions: [
-          CupertinoDialogAction(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          CupertinoDialogAction(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
           CupertinoDialogAction(
             isDefaultAction: true,
             onPressed: () {

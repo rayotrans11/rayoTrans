@@ -21,9 +21,12 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = context.watch<AppStore>();
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
-    final inTransitCount = store.parcels.where((p) => p.status == ParcelStatus.inTransit).length;
+    final inTransitCount = store.parcels
+        .where((p) => p.status == ParcelStatus.inTransit)
+        .length;
     final deliveredTodayCount = store.events.where((e) {
       final now = DateTime.now();
       return e.to == ParcelStatus.delivered &&
@@ -31,8 +34,16 @@ class DashboardScreen extends StatelessWidget {
           e.timestamp.month == now.month &&
           e.timestamp.day == now.day;
     }).length;
-    final trucksOnRouteCount = store.trucks.where((t) => t.status == TruckStatus.onRoute).length;
-    final issuesCount = store.parcels.where((p) => p.status == ParcelStatus.failed || p.status == ParcelStatus.returned).length;
+    final trucksOnRouteCount = store.trucks
+        .where((t) => t.status == TruckStatus.onRoute)
+        .length;
+    final issuesCount = store.parcels
+        .where(
+          (p) =>
+              p.status == ParcelStatus.failed ||
+              p.status == ParcelStatus.returned,
+        )
+        .length;
 
     return ResponsiveScaffold(
       body: CustomScrollView(
@@ -74,7 +85,9 @@ class DashboardScreen extends StatelessWidget {
                             context.tr('tagline'),
                             style: TextStyle(
                               fontSize: 12,
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.6),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -152,9 +165,14 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
-                            color: RayoColors.primaryBlue.withValues(alpha: 0.12),
+                            color: RayoColors.primaryBlue.withValues(
+                              alpha: 0.12,
+                            ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -169,10 +187,7 @@ class DashboardScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 18),
-                    SizedBox(
-                      height: 150,
-                      child: _buildBarChart(store),
-                    ),
+                    SizedBox(height: 150, child: _buildBarChart(store)),
                   ],
                 ),
               ),
@@ -198,7 +213,9 @@ class DashboardScreen extends StatelessWidget {
                       '${store.events.length} logs',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.5),
                       ),
                     ),
                 ],
@@ -215,7 +232,9 @@ class DashboardScreen extends StatelessWidget {
                   child: Text(
                     'No tracking events recorded yet.',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   ),
                 ),
@@ -225,88 +244,101 @@ class DashboardScreen extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final event = store.events[index];
-                    final parcel = store.parcels.firstWhere(
-                      (p) => p.id == event.parcelID,
-                      orElse: () => Parcel(id: '', code: 'Unknown'),
-                    );
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final event = store.events[index];
+                  final parcel = store.parcels.firstWhere(
+                    (p) => p.id == event.parcelID,
+                    orElse: () => Parcel(id: '', code: 'Unknown'),
+                  );
 
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: GlassCard(
-                        cornerRadius: 18,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        onTap: parcel.id.isNotEmpty
-                            ? () {
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (_) => ParcelDetailScreen(parcelId: parcel.id),
-                                  ),
-                                );
-                              }
-                            : null,
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: RayoColors.primaryBlue.withValues(alpha: 0.12),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                CupertinoIcons.arrow_right_arrow_left_circle_fill,
-                                color: RayoColors.primaryBlue,
-                                size: 18,
-                              ),
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        parcel.code,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Courier',
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        DateFormat('HH:mm · MMM d').format(event.timestamp),
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 3),
-                                  Text(
-                                    event.note.isNotEmpty ? event.note : 'Status updated',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            StatusPill(status: event.to, fontSize: 10),
-                          ],
-                        ),
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: GlassCard(
+                      cornerRadius: 18,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
                       ),
-                    );
-                  },
-                  childCount: store.events.take(6).length,
-                ),
+                      onTap: parcel.id.isNotEmpty
+                          ? () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (_) =>
+                                      ParcelDetailScreen(parcelId: parcel.id),
+                                ),
+                              );
+                            }
+                          : null,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: RayoColors.primaryBlue.withValues(
+                                alpha: 0.12,
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              CupertinoIcons.arrow_right_arrow_left_circle_fill,
+                              color: RayoColors.primaryBlue,
+                              size: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      parcel.code,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Courier',
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      DateFormat(
+                                        'HH:mm · MMM d',
+                                      ).format(event.timestamp),
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withValues(alpha: 0.5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  event.note.isNotEmpty
+                                      ? event.note
+                                      : 'Status updated',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.7),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          StatusPill(status: event.to, fontSize: 10),
+                        ],
+                      ),
+                    ),
+                  );
+                }, childCount: store.events.take(6).length),
               ),
             ),
         ],
@@ -335,11 +367,20 @@ class DashboardScreen extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       onSelected: (value) {
         if (value == 'new_parcel') {
-          Navigator.push(context, CupertinoPageRoute(builder: (_) => const ParcelFormScreen()));
+          Navigator.push(
+            context,
+            CupertinoPageRoute(builder: (_) => const ParcelFormScreen()),
+          );
         } else if (value == 'new_truck') {
-          Navigator.push(context, CupertinoPageRoute(builder: (_) => const TruckFormScreen()));
+          Navigator.push(
+            context,
+            CupertinoPageRoute(builder: (_) => const TruckFormScreen()),
+          );
         } else if (value == 'scan') {
-          Navigator.push(context, CupertinoPageRoute(builder: (_) => const ScannerScreen()));
+          Navigator.push(
+            context,
+            CupertinoPageRoute(builder: (_) => const ScannerScreen()),
+          );
         }
       },
       itemBuilder: (context) => [
@@ -347,7 +388,11 @@ class DashboardScreen extends StatelessWidget {
           value: 'new_parcel',
           child: Row(
             children: [
-              const Icon(CupertinoIcons.cube_box, color: RayoColors.primaryBlue, size: 20),
+              const Icon(
+                CupertinoIcons.cube_box,
+                color: RayoColors.primaryBlue,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Text(context.tr('new_parcel')),
             ],
@@ -357,7 +402,11 @@ class DashboardScreen extends StatelessWidget {
           value: 'new_truck',
           child: Row(
             children: [
-              const Icon(CupertinoIcons.bus, color: RayoColors.truckCyan, size: 20),
+              const Icon(
+                CupertinoIcons.bus,
+                color: RayoColors.truckCyan,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Text(context.tr('new_truck')),
             ],
@@ -367,7 +416,11 @@ class DashboardScreen extends StatelessWidget {
           value: 'scan',
           child: Row(
             children: [
-              const Icon(CupertinoIcons.barcode_viewfinder, color: RayoColors.successGreen, size: 20),
+              const Icon(
+                CupertinoIcons.barcode_viewfinder,
+                color: RayoColors.successGreen,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Text(context.tr('scan_code')),
             ],
@@ -380,7 +433,11 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildBarChart(AppStore store) {
     final now = DateTime.now();
     final dailyCounts = List.generate(7, (i) {
-      final day = DateTime(now.year, now.month, now.day).subtract(Duration(days: 6 - i));
+      final day = DateTime(
+        now.year,
+        now.month,
+        now.day,
+      ).subtract(Duration(days: 6 - i));
       final count = store.parcels.where((p) {
         return p.createdAt.year == day.year &&
             p.createdAt.month == day.month &&
@@ -389,7 +446,9 @@ class DashboardScreen extends StatelessWidget {
       return MapEntry(day, count);
     });
 
-    final maxCount = dailyCounts.map((e) => e.value).fold<int>(0, (prev, elem) => elem > prev ? elem : prev);
+    final maxCount = dailyCounts
+        .map((e) => e.value)
+        .fold<int>(0, (prev, elem) => elem > prev ? elem : prev);
     final maxY = (maxCount < 5 ? 5 : maxCount + 2).toDouble();
 
     return BarChart(
@@ -403,7 +462,11 @@ class DashboardScreen extends StatelessWidget {
               final day = dailyCounts[group.x.toInt()].key;
               return BarTooltipItem(
                 '${DateFormat('E d').format(day)}\n${rod.toY.toInt()} parcels',
-                const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
               );
             },
           ),
@@ -415,21 +478,32 @@ class DashboardScreen extends StatelessWidget {
               showTitles: true,
               getTitlesWidget: (value, meta) {
                 final index = value.toInt();
-                if (index < 0 || index >= dailyCounts.length) return const SizedBox.shrink();
+                if (index < 0 || index >= dailyCounts.length) {
+                  return const SizedBox.shrink();
+                }
                 final d = dailyCounts[index].key;
                 return Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: Text(
                     DateFormat('E').format(d).substring(0, 1),
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 );
               },
             ),
           ),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
@@ -441,9 +515,13 @@ class DashboardScreen extends StatelessWidget {
             barRods: [
               BarChartRodData(
                 toY: count.toDouble(),
-                color: isToday ? RayoColors.primaryBlue : RayoColors.primaryBlue.withValues(alpha: 0.45),
+                color: isToday
+                    ? RayoColors.primaryBlue
+                    : RayoColors.primaryBlue.withValues(alpha: 0.45),
                 width: 16,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(6),
+                ),
                 backDrawRodData: BackgroundBarChartRodData(
                   show: true,
                   toY: maxY,

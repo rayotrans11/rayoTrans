@@ -53,12 +53,7 @@ extension ParcelStatusX on ParcelStatus {
   }
 }
 
-enum TruckStatus {
-  available,
-  onRoute,
-  maintenance,
-  offline,
-}
+enum TruckStatus { available, onRoute, maintenance, offline }
 
 extension TruckStatusX on TruckStatus {
   String get rawValue => name;
@@ -84,11 +79,7 @@ extension TruckStatusX on TruckStatus {
   }
 }
 
-enum Priority {
-  normal,
-  high,
-  urgent,
-}
+enum Priority { normal, high, urgent }
 
 extension PriorityX on Priority {
   String get rawValue => name;
@@ -140,11 +131,11 @@ class Person {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'phone': phone,
-        'address': address,
-        'city': city,
-      };
+    'name': name,
+    'phone': phone,
+    'address': address,
+    'city': city,
+  };
 
   factory Person.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const Person();
@@ -213,18 +204,18 @@ class Truck {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'plate': plate,
-        'driverName': driverName,
-        'driverPhone': driverPhone,
-        'capacityKg': capacityKg,
-        'status': status.rawValue,
-        'notes': notes,
-        'photoFileName': photoFileName,
-        'isArchived': isArchived,
-        'createdAt': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'name': name,
+    'plate': plate,
+    'driverName': driverName,
+    'driverPhone': driverPhone,
+    'capacityKg': capacityKg,
+    'status': status.rawValue,
+    'notes': notes,
+    'photoFileName': photoFileName,
+    'isArchived': isArchived,
+    'createdAt': createdAt.toIso8601String(),
+  };
 
   factory Truck.fromJson(Map<String, dynamic> json) {
     return Truck(
@@ -276,8 +267,8 @@ class Parcel {
     this.photoFileNames = const [],
     DateTime? createdAt,
     DateTime? updatedAt,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+  }) : createdAt = createdAt ?? DateTime.now(),
+       updatedAt = updatedAt ?? DateTime.now();
 
   Parcel copyWith({
     String? id,
@@ -314,21 +305,21 @@ class Parcel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'code': code,
-        'sender': sender.toJson(),
-        'recipient': recipient.toJson(),
-        'weightKg': weightKg,
-        'descriptionText': descriptionText,
-        'codAmount': codAmount,
-        'priority': priority.rawValue,
-        'status': status.rawValue,
-        'truckID': truckID,
-        'notes': notes,
-        'photoFileNames': photoFileNames,
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
-      };
+    'id': id,
+    'code': code,
+    'sender': sender.toJson(),
+    'recipient': recipient.toJson(),
+    'weightKg': weightKg,
+    'descriptionText': descriptionText,
+    'codAmount': codAmount,
+    'priority': priority.rawValue,
+    'status': status.rawValue,
+    'truckID': truckID,
+    'notes': notes,
+    'photoFileNames': photoFileNames,
+    'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
+  };
 
   factory Parcel.fromJson(Map<String, dynamic> json) {
     return Parcel(
@@ -343,7 +334,8 @@ class Parcel {
       status: ParcelStatusX.fromString(json['status'] as String? ?? ''),
       truckID: json['truckID'] as String?,
       notes: json['notes'] as String? ?? '',
-      photoFileNames: (json['photoFileNames'] as List<dynamic>?)
+      photoFileNames:
+          (json['photoFileNames'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
@@ -381,16 +373,16 @@ class TrackingEvent {
   }) : timestamp = timestamp ?? DateTime.now();
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'parcelID': parcelID,
-        'timestamp': timestamp.toIso8601String(),
-        'from': from?.rawValue,
-        'to': to.rawValue,
-        'note': note,
-        'operatorName': operatorName,
-        'latitude': latitude,
-        'longitude': longitude,
-      };
+    'id': id,
+    'parcelID': parcelID,
+    'timestamp': timestamp.toIso8601String(),
+    'from': from?.rawValue,
+    'to': to.rawValue,
+    'note': note,
+    'operatorName': operatorName,
+    'latitude': latitude,
+    'longitude': longitude,
+  };
 
   factory TrackingEvent.fromJson(Map<String, dynamic> json) {
     return TrackingEvent(
@@ -491,24 +483,24 @@ class AppSettings {
   }
 
   Map<String, dynamic> toJson() => {
-        'companyName': companyName,
-        'operatorName': operatorName,
-        'language': language,
-        'weightUnit': weightUnit,
-        'currencySymbol': currencySymbol,
-        'codePrefix': codePrefix,
-        'theme': theme,
-        'accentHex': accentHex,
-        'glassStyle': glassStyle,
-        'haptics': haptics,
-        'appLockEnabled': appLockEnabled,
-        'autoLockSeconds': autoLockSeconds,
-        'hideInSwitcher': hideInSwitcher,
-        'remindersEnabled': remindersEnabled,
-        'reminderHours': reminderHours,
-        'attachLocation': attachLocation,
-        'hasOnboarded': hasOnboarded,
-      };
+    'companyName': companyName,
+    'operatorName': operatorName,
+    'language': language,
+    'weightUnit': weightUnit,
+    'currencySymbol': currencySymbol,
+    'codePrefix': codePrefix,
+    'theme': theme,
+    'accentHex': accentHex,
+    'glassStyle': glassStyle,
+    'haptics': haptics,
+    'appLockEnabled': appLockEnabled,
+    'autoLockSeconds': autoLockSeconds,
+    'hideInSwitcher': hideInSwitcher,
+    'remindersEnabled': remindersEnabled,
+    'reminderHours': reminderHours,
+    'attachLocation': attachLocation,
+    'hasOnboarded': hasOnboarded,
+  };
 
   factory AppSettings.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const AppSettings();
@@ -552,13 +544,13 @@ class RayoBackup {
   }) : exportedAt = exportedAt ?? DateTime.now();
 
   Map<String, dynamic> toJson() => {
-        'version': version,
-        'exportedAt': exportedAt.toIso8601String(),
-        'trucks': trucks.map((e) => e.toJson()).toList(),
-        'parcels': parcels.map((e) => e.toJson()).toList(),
-        'events': events.map((e) => e.toJson()).toList(),
-        'settings': settings.toJson(),
-      };
+    'version': version,
+    'exportedAt': exportedAt.toIso8601String(),
+    'trucks': trucks.map((e) => e.toJson()).toList(),
+    'parcels': parcels.map((e) => e.toJson()).toList(),
+    'events': events.map((e) => e.toJson()).toList(),
+    'settings': settings.toJson(),
+  };
 
   factory RayoBackup.fromJson(Map<String, dynamic> json) {
     return RayoBackup(
@@ -566,15 +558,18 @@ class RayoBackup {
       exportedAt: json['exportedAt'] != null
           ? DateTime.tryParse(json['exportedAt'] as String) ?? DateTime.now()
           : DateTime.now(),
-      trucks: (json['trucks'] as List<dynamic>?)
+      trucks:
+          (json['trucks'] as List<dynamic>?)
               ?.map((e) => Truck.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      parcels: (json['parcels'] as List<dynamic>?)
+      parcels:
+          (json['parcels'] as List<dynamic>?)
               ?.map((e) => Parcel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      events: (json['events'] as List<dynamic>?)
+      events:
+          (json['events'] as List<dynamic>?)
               ?.map((e) => TrackingEvent.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],

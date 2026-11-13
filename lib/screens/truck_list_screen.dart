@@ -30,18 +30,26 @@ class TruckListScreen extends StatelessWidget {
                 children: [
                   Text(
                     context.tr('trucks'),
-                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, letterSpacing: -0.5),
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.5,
+                    ),
                   ),
                   IconButton.filledTonal(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (_) => const TruckFormScreen()),
+                        CupertinoPageRoute(
+                          builder: (_) => const TruckFormScreen(),
+                        ),
                       );
                     },
                     icon: const Icon(CupertinoIcons.plus, size: 20),
                     style: IconButton.styleFrom(
-                      backgroundColor: RayoColors.truckCyan.withValues(alpha: 0.15),
+                      backgroundColor: RayoColors.truckCyan.withValues(
+                        alpha: 0.15,
+                      ),
                       foregroundColor: RayoColors.primaryBlue,
                     ),
                   ),
@@ -58,13 +66,19 @@ class TruckListScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(CupertinoIcons.bus, size: 54, color: Colors.grey.withValues(alpha: 0.4)),
+                    Icon(
+                      CupertinoIcons.bus,
+                      size: 54,
+                      color: Colors.grey.withValues(alpha: 0.4),
+                    ),
                     const SizedBox(height: 12),
                     Text(
                       context.tr('no_trucks'),
                       style: TextStyle(
                         fontSize: 16,
-                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.5),
                       ),
                     ),
                   ],
@@ -75,123 +89,149 @@ class TruckListScreen extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final truck = store.trucks[index];
-                    final assignedParcels = store.parcelsForTruck(truck.id);
-                    final ratio = store.loadRatioForTruck(truck);
-                    final weight = store.currentTruckWeight(truck);
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final truck = store.trucks[index];
+                  final assignedParcels = store.parcelsForTruck(truck.id);
+                  final ratio = store.loadRatioForTruck(truck);
+                  final weight = store.currentTruckWeight(truck);
 
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 14),
-                      child: GlassCard(
-                        cornerRadius: 22,
-                        padding: const EdgeInsets.all(18),
-                        onTap: () {
-                          _showTruckDetailBottomSheet(context, store, truck);
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Top Row: Name, Plate, Status
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: RayoColors.truckCyan.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(12),
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: GlassCard(
+                      cornerRadius: 22,
+                      padding: const EdgeInsets.all(18),
+                      onTap: () {
+                        _showTruckDetailBottomSheet(context, store, truck);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Top Row: Name, Plate, Status
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: RayoColors.truckCyan.withValues(
+                                    alpha: 0.15,
                                   ),
-                                  child: const Icon(CupertinoIcons.bus, color: RayoColors.primaryBlue, size: 20),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        truck.name,
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                      ),
-                                      Text(
-                                        truck.plate,
-                                        style: const TextStyle(
-                                          fontFamily: 'Courier',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                child: const Icon(
+                                  CupertinoIcons.bus,
+                                  color: RayoColors.primaryBlue,
+                                  size: 20,
                                 ),
-                                TruckStatusPill(status: truck.status),
-                              ],
-                            ),
-                            const SizedBox(height: 14),
-
-                            // Driver Info
-                            if (truck.driverName.isNotEmpty) ...[
-                              Row(
-                                children: [
-                                  Icon(CupertinoIcons.person_badge_plus_fill, size: 16, color: Colors.grey.withValues(alpha: 0.7)),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    truck.driverName,
-                                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-                                  ),
-                                  if (truck.driverPhone.isNotEmpty) ...[
-                                    const Spacer(),
-                                    IconButton(
-                                      icon: const Icon(CupertinoIcons.phone_fill, size: 16, color: RayoColors.successGreen),
-                                      onPressed: () => launchUrl(Uri.parse('tel:${truck.driverPhone}')),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      truck.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      truck.plate,
+                                      style: const TextStyle(
+                                        fontFamily: 'Courier',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ],
-                                ],
+                                ),
                               ),
-                              const SizedBox(height: 10),
+                              TruckStatusPill(status: truck.status),
                             ],
+                          ),
+                          const SizedBox(height: 14),
 
-                            // Load Percentage Bar
+                          // Driver Info
+                          if (truck.driverName.isNotEmpty) ...[
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Icon(
+                                  CupertinoIcons.person_badge_plus_fill,
+                                  size: 16,
+                                  color: Colors.grey.withValues(alpha: 0.7),
+                                ),
+                                const SizedBox(width: 6),
                                 Text(
-                                  '${assignedParcels.length} parcels · ${weight.toStringAsFixed(1)} / ${truck.capacityKg.toStringAsFixed(0)} kg',
-                                  style: TextStyle(
-                                    fontSize: 12,
+                                  truck.driverName,
+                                  style: const TextStyle(
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
                                   ),
                                 ),
-                                Text(
-                                  '${(ratio * 100).toInt()}%',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: ratio > 0.9 ? RayoColors.dangerRed : RayoColors.primaryBlue,
+                                if (truck.driverPhone.isNotEmpty) ...[
+                                  const Spacer(),
+                                  IconButton(
+                                    icon: const Icon(
+                                      CupertinoIcons.phone_fill,
+                                      size: 16,
+                                      color: RayoColors.successGreen,
+                                    ),
+                                    onPressed: () => launchUrl(
+                                      Uri.parse('tel:${truck.driverPhone}'),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ],
                             ),
-                            const SizedBox(height: 6),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: LinearProgressIndicator(
-                                value: ratio,
-                                minHeight: 6,
-                                backgroundColor: Colors.grey.withValues(alpha: 0.15),
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  ratio > 0.9 ? RayoColors.dangerRed : RayoColors.primaryBlue,
+                            const SizedBox(height: 10),
+                          ],
+
+                          // Load Percentage Bar
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${assignedParcels.length} parcels · ${weight.toStringAsFixed(1)} / ${truck.capacityKg.toStringAsFixed(0)} kg',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.65),
                                 ),
                               ),
+                              Text(
+                                '${(ratio * 100).toInt()}%',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: ratio > 0.9
+                                      ? RayoColors.dangerRed
+                                      : RayoColors.primaryBlue,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: LinearProgressIndicator(
+                              value: ratio,
+                              minHeight: 6,
+                              backgroundColor: Colors.grey.withValues(
+                                alpha: 0.15,
+                              ),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                ratio > 0.9
+                                    ? RayoColors.dangerRed
+                                    : RayoColors.primaryBlue,
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                  childCount: store.trucks.length,
-                ),
+                    ),
+                  );
+                }, childCount: store.trucks.length),
               ),
             ),
         ],
@@ -199,7 +239,11 @@ class TruckListScreen extends StatelessWidget {
     );
   }
 
-  void _showTruckDetailBottomSheet(BuildContext context, AppStore store, Truck truck) {
+  void _showTruckDetailBottomSheet(
+    BuildContext context,
+    AppStore store,
+    Truck truck,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -236,8 +280,20 @@ class TruckListScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(truck.name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                          Text('Plate: ${truck.plate}', style: const TextStyle(fontFamily: 'Courier', fontSize: 14)),
+                          Text(
+                            truck.name,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Plate: ${truck.plate}',
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 14,
+                            ),
+                          ),
                         ],
                       ),
                       TruckStatusPill(status: truck.status, fontSize: 13),
@@ -255,7 +311,9 @@ class TruckListScreen extends StatelessWidget {
                                 ? RayoColors.warningOrange
                                 : RayoColors.primaryBlue,
                             foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           onPressed: () {
@@ -267,11 +325,15 @@ class TruckListScreen extends StatelessWidget {
                             Navigator.pop(ctx);
                           },
                           icon: Icon(
-                            truck.status == TruckStatus.onRoute ? CupertinoIcons.stop_fill : CupertinoIcons.play_arrow_solid,
+                            truck.status == TruckStatus.onRoute
+                                ? CupertinoIcons.stop_fill
+                                : CupertinoIcons.play_arrow_solid,
                             size: 16,
                           ),
                           label: Text(
-                            truck.status == TruckStatus.onRoute ? context.tr('end_route') : context.tr('start_route'),
+                            truck.status == TruckStatus.onRoute
+                                ? context.tr('end_route')
+                                : context.tr('start_route'),
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -290,7 +352,10 @@ class TruckListScreen extends StatelessWidget {
                           Navigator.pop(ctx);
                           Navigator.push(
                             context,
-                            CupertinoPageRoute(builder: (_) => TruckFormScreen(truckToEdit: truck)),
+                            CupertinoPageRoute(
+                              builder: (_) =>
+                                  TruckFormScreen(truckToEdit: truck),
+                            ),
                           );
                         },
                         icon: const Icon(CupertinoIcons.pencil),
@@ -305,11 +370,17 @@ class TruckListScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Assigned Parcels (${assigned.length})',
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                       Text(
                         '${store.currentTruckWeight(truck).toStringAsFixed(1)} kg',
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -318,7 +389,9 @@ class TruckListScreen extends StatelessWidget {
                   if (assigned.isEmpty)
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24),
-                      child: Center(child: Text('No parcels assigned to this truck.')),
+                      child: Center(
+                        child: Text('No parcels assigned to this truck.'),
+                      ),
                     )
                   else
                     ...assigned.map((p) {
@@ -331,7 +404,10 @@ class TruckListScreen extends StatelessWidget {
                             Navigator.pop(ctx);
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (_) => ParcelDetailScreen(parcelId: p.id)),
+                              CupertinoPageRoute(
+                                builder: (_) =>
+                                    ParcelDetailScreen(parcelId: p.id),
+                              ),
                             );
                           },
                           child: Row(
@@ -339,8 +415,18 @@ class TruckListScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(p.code, style: const TextStyle(fontFamily: 'Courier', fontWeight: FontWeight.bold, fontSize: 13)),
-                                  Text('${p.recipient.name} · ${p.recipient.city}', style: const TextStyle(fontSize: 12)),
+                                  Text(
+                                    p.code,
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${p.recipient.name} · ${p.recipient.city}',
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
                                 ],
                               ),
                               const Spacer(),

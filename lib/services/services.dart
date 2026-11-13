@@ -18,7 +18,8 @@ class RayoServices {
   // Biometrics Authentication
   static Future<bool> authenticateBiometrics(String reason) async {
     try {
-      final isAvailable = await _auth.canCheckBiometrics || await _auth.isDeviceSupported();
+      final isAvailable =
+          await _auth.canCheckBiometrics || await _auth.isDeviceSupported();
       if (!isAvailable) {
         return true; // Fallback if hardware lacks biometrics
       }
@@ -51,9 +52,9 @@ class RayoServices {
       );
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Export failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Export failed: $e')));
       }
     }
   }
@@ -61,9 +62,7 @@ class RayoServices {
   // Backup Import via File Picker
   static Future<bool> importBackup(BuildContext context, AppStore store) async {
     try {
-      final result = await FilePicker.pickFiles(
-        type: FileType.any,
-      );
+      final result = await FilePicker.pickFiles(type: FileType.any);
       if (result != null && result.files.single.path != null) {
         final file = File(result.files.single.path!);
         final jsonStr = await file.readAsString();
@@ -77,9 +76,9 @@ class RayoServices {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Import failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Import failed: $e')));
       }
     }
     return false;
@@ -103,9 +102,9 @@ class RayoServices {
       );
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('CSV Export failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('CSV Export failed: $e')));
       }
     }
   }
@@ -143,7 +142,10 @@ class RayoServices {
                         ),
                         pw.Text(
                           'Offline Tracking Document',
-                          style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey700),
+                          style: const pw.TextStyle(
+                            fontSize: 10,
+                            color: PdfColors.grey700,
+                          ),
                         ),
                       ],
                     ),
@@ -170,10 +172,15 @@ class RayoServices {
                 pw.Center(
                   child: pw.Container(
                     margin: const pw.EdgeInsets.only(top: 4, bottom: 8),
-                    padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                    padding: const pw.EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 3,
+                    ),
                     decoration: pw.BoxDecoration(
                       color: PdfColors.blue100,
-                      borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+                      borderRadius: const pw.BorderRadius.all(
+                        pw.Radius.circular(4),
+                      ),
                     ),
                     child: pw.Text(
                       'STATUS: ${parcel.status.name.toUpperCase()}',
@@ -194,16 +201,39 @@ class RayoServices {
                         padding: const pw.EdgeInsets.all(8),
                         decoration: pw.BoxDecoration(
                           color: PdfColors.grey100,
-                          borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+                          borderRadius: const pw.BorderRadius.all(
+                            pw.Radius.circular(4),
+                          ),
                         ),
                         child: pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text('FROM (SENDER):', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold, color: PdfColors.grey600)),
+                            pw.Text(
+                              'FROM (SENDER):',
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                                color: PdfColors.grey600,
+                              ),
+                            ),
                             pw.SizedBox(height: 2),
-                            pw.Text(parcel.sender.name.isNotEmpty ? parcel.sender.name : 'Unknown', style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold)),
-                            pw.Text(parcel.sender.phone, style: const pw.TextStyle(fontSize: 10)),
-                            pw.Text('${parcel.sender.address}, ${parcel.sender.city}', style: const pw.TextStyle(fontSize: 9)),
+                            pw.Text(
+                              parcel.sender.name.isNotEmpty
+                                  ? parcel.sender.name
+                                  : 'Unknown',
+                              style: pw.TextStyle(
+                                fontSize: 11,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text(
+                              parcel.sender.phone,
+                              style: const pw.TextStyle(fontSize: 10),
+                            ),
+                            pw.Text(
+                              '${parcel.sender.address}, ${parcel.sender.city}',
+                              style: const pw.TextStyle(fontSize: 9),
+                            ),
                           ],
                         ),
                       ),
@@ -214,16 +244,39 @@ class RayoServices {
                         padding: const pw.EdgeInsets.all(8),
                         decoration: pw.BoxDecoration(
                           color: PdfColors.grey100,
-                          borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+                          borderRadius: const pw.BorderRadius.all(
+                            pw.Radius.circular(4),
+                          ),
                         ),
                         child: pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text('TO (RECIPIENT):', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold, color: PdfColors.grey600)),
+                            pw.Text(
+                              'TO (RECIPIENT):',
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                                color: PdfColors.grey600,
+                              ),
+                            ),
                             pw.SizedBox(height: 2),
-                            pw.Text(parcel.recipient.name.isNotEmpty ? parcel.recipient.name : 'Unknown', style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold)),
-                            pw.Text(parcel.recipient.phone, style: const pw.TextStyle(fontSize: 10)),
-                            pw.Text('${parcel.recipient.address}, ${parcel.recipient.city}', style: const pw.TextStyle(fontSize: 9)),
+                            pw.Text(
+                              parcel.recipient.name.isNotEmpty
+                                  ? parcel.recipient.name
+                                  : 'Unknown',
+                              style: pw.TextStyle(
+                                fontSize: 11,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text(
+                              parcel.recipient.phone,
+                              style: const pw.TextStyle(fontSize: 10),
+                            ),
+                            pw.Text(
+                              '${parcel.recipient.address}, ${parcel.recipient.city}',
+                              style: const pw.TextStyle(fontSize: 9),
+                            ),
                           ],
                         ),
                       ),
@@ -235,35 +288,114 @@ class RayoServices {
                   border: pw.TableBorder.all(color: PdfColors.grey300),
                   children: [
                     pw.TableRow(
-                      decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+                      decoration: const pw.BoxDecoration(
+                        color: PdfColors.grey200,
+                      ),
                       children: [
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Weight', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold))),
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Priority', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold))),
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('COD Amount', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold))),
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Truck Plate', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold))),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            'Weight',
+                            style: pw.TextStyle(
+                              fontSize: 9,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            'Priority',
+                            style: pw.TextStyle(
+                              fontSize: 9,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            'COD Amount',
+                            style: pw.TextStyle(
+                              fontSize: 9,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            'Truck Plate',
+                            style: pw.TextStyle(
+                              fontSize: 9,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     pw.TableRow(
                       children: [
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('${parcel.weightKg} kg', style: const pw.TextStyle(fontSize: 10))),
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text(parcel.priority.name.toUpperCase(), style: const pw.TextStyle(fontSize: 10))),
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text(parcel.codAmount != null ? '${parcel.codAmount} MAD' : 'None', style: const pw.TextStyle(fontSize: 10))),
-                        pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text(truck?.plate ?? 'Unassigned', style: const pw.TextStyle(fontSize: 10))),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            '${parcel.weightKg} kg',
+                            style: const pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            parcel.priority.name.toUpperCase(),
+                            style: const pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            parcel.codAmount != null
+                                ? '${parcel.codAmount} MAD'
+                                : 'None',
+                            style: const pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            truck?.plate ?? 'Unassigned',
+                            style: const pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
                 if (parcel.descriptionText.isNotEmpty) ...[
                   pw.SizedBox(height: 8),
-                  pw.Text('Description: ${parcel.descriptionText}', style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey800)),
+                  pw.Text(
+                    'Description: ${parcel.descriptionText}',
+                    style: const pw.TextStyle(
+                      fontSize: 9,
+                      color: PdfColors.grey800,
+                    ),
+                  ),
                 ],
                 pw.Spacer(),
                 pw.Divider(thickness: 0.5, color: PdfColors.grey400),
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('Recipient Signature: __________________', style: const pw.TextStyle(fontSize: 9)),
-                    pw.Text('Date: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now())}', style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey600)),
+                    pw.Text(
+                      'Recipient Signature: __________________',
+                      style: const pw.TextStyle(fontSize: 9),
+                    ),
+                    pw.Text(
+                      'Date: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now())}',
+                      style: const pw.TextStyle(
+                        fontSize: 9,
+                        color: PdfColors.grey600,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -280,7 +412,10 @@ class RayoServices {
   }
 
   // Daily Manifest PDF per Truck
-  static Future<void> printTruckManifestPdf(Truck truck, List<Parcel> parcels) async {
+  static Future<void> printTruckManifestPdf(
+    Truck truck,
+    List<Parcel> parcels,
+  ) async {
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -296,22 +431,35 @@ class RayoServices {
                 children: [
                   pw.Text(
                     'DAILY DELIVERY MANIFEST',
-                    style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold, color: PdfColors.blue800),
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.blue800,
+                    ),
                   ),
                   pw.Text(
                     DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                    style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                    style: pw.TextStyle(
+                      fontSize: 12,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
               pw.SizedBox(height: 4),
               pw.Text(
                 'Truck: ${truck.name} | Plate: ${truck.plate} | Driver: ${truck.driverName} (${truck.driverPhone})',
-                style: const pw.TextStyle(fontSize: 11, color: PdfColors.grey800),
+                style: const pw.TextStyle(
+                  fontSize: 11,
+                  color: PdfColors.grey800,
+                ),
               ),
               pw.Text(
                 'Total Parcels: ${parcels.length} | Total Weight: ${parcels.fold<double>(0, (sum, p) => sum + p.weightKg).toStringAsFixed(1)} / ${truck.capacityKg} kg',
-                style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey600),
+                style: const pw.TextStyle(
+                  fontSize: 10,
+                  color: PdfColors.grey600,
+                ),
               ),
               pw.Divider(thickness: 1, color: PdfColors.blueGrey),
               pw.SizedBox(height: 8),
@@ -335,13 +483,76 @@ class RayoServices {
                 pw.TableRow(
                   decoration: const pw.BoxDecoration(color: PdfColors.blue50),
                   children: [
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('#', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Tracking Code', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Recipient', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Address / City', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Weight', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('COD', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                    pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('Signature', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        '#',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        'Tracking Code',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        'Recipient',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        'Address / City',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        'Weight',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        'COD',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(
+                        'Signature',
+                        style: pw.TextStyle(
+                          fontSize: 8,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 ...parcels.asMap().entries.map((entry) {
@@ -349,13 +560,58 @@ class RayoServices {
                   final p = entry.value;
                   return pw.TableRow(
                     children: [
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('$i', style: const pw.TextStyle(fontSize: 8))),
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text(p.code, style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('${p.recipient.name}\n${p.recipient.phone}', style: const pw.TextStyle(fontSize: 7.5))),
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('${p.recipient.address}, ${p.recipient.city}', style: const pw.TextStyle(fontSize: 7.5))),
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('${p.weightKg} kg', style: const pw.TextStyle(fontSize: 8))),
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text(p.codAmount != null ? '${p.codAmount}' : '-', style: const pw.TextStyle(fontSize: 8))),
-                      pw.Padding(padding: const pw.EdgeInsets.all(4), child: pw.Text('', style: const pw.TextStyle(fontSize: 8))),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          '$i',
+                          style: const pw.TextStyle(fontSize: 8),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          p.code,
+                          style: pw.TextStyle(
+                            fontSize: 8,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          '${p.recipient.name}\n${p.recipient.phone}',
+                          style: const pw.TextStyle(fontSize: 7.5),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          '${p.recipient.address}, ${p.recipient.city}',
+                          style: const pw.TextStyle(fontSize: 7.5),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          '${p.weightKg} kg',
+                          style: const pw.TextStyle(fontSize: 8),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          p.codAmount != null ? '${p.codAmount}' : '-',
+                          style: const pw.TextStyle(fontSize: 8),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          '',
+                          style: const pw.TextStyle(fontSize: 8),
+                        ),
+                      ),
                     ],
                   );
                 }),
@@ -368,7 +624,8 @@ class RayoServices {
 
     await Printing.layoutPdf(
       onLayout: (format) async => pdf.save(),
-      name: 'Manifest_${truck.plate}_${DateFormat('yyyyMMdd').format(DateTime.now())}.pdf',
+      name:
+          'Manifest_${truck.plate}_${DateFormat('yyyyMMdd').format(DateTime.now())}.pdf',
     );
   }
 }

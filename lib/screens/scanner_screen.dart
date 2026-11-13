@@ -58,7 +58,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
     Navigator.pushReplacement(
       context,
-      CupertinoPageRoute(builder: (_) => ParcelDetailScreen(parcelId: parcel.id)),
+      CupertinoPageRoute(
+        builder: (_) => ParcelDetailScreen(parcelId: parcel.id),
+      ),
     );
   }
 
@@ -69,10 +71,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       body: Stack(
         children: [
           // Camera scanner
-          MobileScanner(
-            controller: _controller,
-            onDetect: _onDetect,
-          ),
+          MobileScanner(controller: _controller, onDetect: _onDetect),
 
           // Glass overlay with scanning frame
           SafeArea(
@@ -80,24 +79,42 @@ class _ScannerScreenState extends State<ScannerScreen> {
               children: [
                 // Top control bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Row(
                     children: [
                       IconButton.filled(
-                        style: IconButton.styleFrom(backgroundColor: Colors.black54),
-                        icon: const Icon(CupertinoIcons.back, color: Colors.white),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black54,
+                        ),
+                        icon: const Icon(
+                          CupertinoIcons.back,
+                          color: Colors.white,
+                        ),
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Spacer(),
                       IconButton.filled(
-                        style: IconButton.styleFrom(backgroundColor: Colors.black54),
-                        icon: const Icon(CupertinoIcons.bolt_fill, color: Colors.white),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black54,
+                        ),
+                        icon: const Icon(
+                          CupertinoIcons.bolt_fill,
+                          color: Colors.white,
+                        ),
                         onPressed: () => _controller.toggleTorch(),
                       ),
                       const SizedBox(width: 8),
                       IconButton.filled(
-                        style: IconButton.styleFrom(backgroundColor: Colors.black54),
-                        icon: const Icon(CupertinoIcons.switch_camera_solid, color: Colors.white),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black54,
+                        ),
+                        icon: const Icon(
+                          CupertinoIcons.switch_camera_solid,
+                          color: Colors.white,
+                        ),
                         onPressed: () => _controller.switchCamera(),
                       ),
                     ],
@@ -116,14 +133,21 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 ),
                 const SizedBox(height: 16),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     context.tr('scan_hint'),
-                    style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -139,7 +163,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
                         Expanded(
                           child: TextField(
                             controller: _manualCodeController,
-                            style: const TextStyle(fontFamily: 'Courier', fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontWeight: FontWeight.bold,
+                            ),
                             decoration: InputDecoration(
                               hintText: context.tr('enter_code_manually'),
                               border: InputBorder.none,
@@ -150,7 +177,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: RayoColors.primaryBlue,
                             foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           onPressed: () {
                             final code = _manualCodeController.text.trim();

@@ -44,7 +44,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Scaffold(
       body: RayoBackground(
@@ -53,7 +54,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               // Top Step Indicator
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(3, (index) {
@@ -107,7 +111,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: RayoColors.primaryBlue,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -130,7 +137,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             _currentPage == 2
                                 ? context.tr('finish_setup')
                                 : context.tr('continue_text'),
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           const Icon(CupertinoIcons.arrow_right, size: 18),
@@ -173,13 +183,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ],
                 ),
-                child: const Icon(CupertinoIcons.cube_box_fill, size: 48, color: Colors.white),
+                child: const Icon(
+                  CupertinoIcons.cube_box_fill,
+                  size: 48,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
                 context.tr('welcome_title'),
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: -0.5),
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5,
+                ),
               ),
               const SizedBox(height: 12),
               Text(
@@ -187,7 +205,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
                   height: 1.4,
                 ),
               ),
@@ -199,7 +219,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   _badge(CupertinoIcons.sparkles, 'Liquid Glass UI'),
                   _badge(CupertinoIcons.airplane, '100% Offline'),
-                  _badge(CupertinoIcons.lock_shield, 'iPhone & iPad Dual-Screen'),
+                  _badge(
+                    CupertinoIcons.lock_shield,
+                    'iPhone & iPad Dual-Screen',
+                  ),
                 ],
               ),
             ],
@@ -235,13 +258,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ],
                 ),
-                child: const Icon(CupertinoIcons.shield_lefthalf_fill, size: 48, color: Colors.white),
+                child: const Icon(
+                  CupertinoIcons.shield_lefthalf_fill,
+                  size: 48,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
                 context.tr('privacy_title'),
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 12),
               Text(
@@ -249,7 +279,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
                   height: 1.4,
                 ),
               ),
@@ -259,16 +291,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 decoration: BoxDecoration(
                   color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.green.withValues(alpha: 0.2)),
+                  border: Border.all(
+                    color: Colors.green.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: const Row(
                   children: [
-                    Icon(CupertinoIcons.checkmark_alt_circle_fill, color: RayoColors.successGreen),
+                    Icon(
+                      CupertinoIcons.checkmark_alt_circle_fill,
+                      color: RayoColors.successGreen,
+                    ),
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Stored locally in sandbox JSON. Full export & restore available at any time.',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -299,7 +339,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: 4),
               Text(
                 'Personalize your workspace before managing your fleet.',
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
+                style: TextStyle(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
               ),
               const SizedBox(height: 20),
               TextField(
@@ -308,7 +352,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   labelText: 'Company / Logistics Name',
                   hintText: 'e.g. Atlas Express Delivery',
                   prefixIcon: const Icon(CupertinoIcons.building_2_fill),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
@@ -318,11 +364,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   labelText: 'Your Name (Dispatcher / Driver)',
                   hintText: 'e.g. Karim',
                   prefixIcon: const Icon(CupertinoIcons.person_fill),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
-              const Text('Preferred Language', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+              const Text(
+                'Preferred Language',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+              ),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -384,7 +435,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           Icon(icon, size: 14, color: RayoColors.primaryBlue),
           const SizedBox(width: 6),
-          Text(text, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );

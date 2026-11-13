@@ -28,11 +28,7 @@ class RayoBackground extends StatelessWidget {
   final Widget child;
   final bool isDark;
 
-  const RayoBackground({
-    super.key,
-    required this.child,
-    this.isDark = false,
-  });
+  const RayoBackground({super.key, required this.child, this.isDark = false});
 
   @override
   Widget build(BuildContext context) {
@@ -128,13 +124,14 @@ class GlassCard extends StatelessWidget {
 
     final defaultTint = isDark
         ? (tintColor != null
-            ? tintColor!.withValues(alpha: 0.18)
-            : const Color(0xFF1E293B).withValues(alpha: 0.55))
+              ? tintColor!.withValues(alpha: 0.18)
+              : const Color(0xFF1E293B).withValues(alpha: 0.55))
         : (tintColor != null
-            ? tintColor!.withValues(alpha: 0.14)
-            : Colors.white.withValues(alpha: 0.68));
+              ? tintColor!.withValues(alpha: 0.14)
+              : Colors.white.withValues(alpha: 0.68));
 
-    final border = customBorder ??
+    final border =
+        customBorder ??
         Border.all(
           color: isDark
               ? Colors.white.withValues(alpha: 0.12)
@@ -196,9 +193,6 @@ class GlassEffectContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: padding,
-      child: child,
-    );
+    return Container(padding: padding, child: child);
   }
 }

@@ -25,7 +25,8 @@ class ResponsiveScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final isWide = MediaQuery.of(context).size.width > 700;
     final bottomPadding = (!isLandscape && !isWide) ? 76.0 : 0.0;
 
@@ -38,7 +39,8 @@ class ResponsiveScaffold extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             // Adaptive wide layout padding for landscape/iPad/iPhone Pro Max
-            final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+            final isLandscape =
+                MediaQuery.of(context).orientation == Orientation.landscape;
             final isWide = constraints.maxWidth > 800;
 
             Widget content = Padding(
@@ -68,11 +70,7 @@ class StatusPill extends StatelessWidget {
   final ParcelStatus status;
   final double fontSize;
 
-  const StatusPill({
-    super.key,
-    required this.status,
-    this.fontSize = 11,
-  });
+  const StatusPill({super.key, required this.status, this.fontSize = 11});
 
   @override
   Widget build(BuildContext context) {
@@ -146,11 +144,7 @@ class TruckStatusPill extends StatelessWidget {
   final TruckStatus status;
   final double fontSize;
 
-  const TruckStatusPill({
-    super.key,
-    required this.status,
-    this.fontSize = 11,
-  });
+  const TruckStatusPill({super.key, required this.status, this.fontSize = 11});
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +232,11 @@ class GlassStatCard extends StatelessWidget {
                 ),
                 child: Icon(icon, color: color, size: 22),
               ),
-              Icon(CupertinoIcons.chevron_forward, size: 14, color: Colors.grey.withValues(alpha: 0.5)),
+              Icon(
+                CupertinoIcons.chevron_forward,
+                size: 14,
+                color: Colors.grey.withValues(alpha: 0.5),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -258,7 +256,9 @@ class GlassStatCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.65),
             ),
           ),
         ],
@@ -315,13 +315,17 @@ class GlassTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: isDark ? Colors.white.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.1),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.15)
+                : Colors.black.withValues(alpha: 0.1),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(
-            color: isDark ? Colors.white.withValues(alpha: 0.12) : Colors.black.withValues(alpha: 0.08),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.12)
+                : Colors.black.withValues(alpha: 0.08),
           ),
         ),
         focusedBorder: OutlineInputBorder(

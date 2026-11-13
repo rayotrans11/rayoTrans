@@ -52,27 +52,35 @@ class AppStore extends ChangeNotifier {
       if (await trucksFile.exists()) {
         final content = await trucksFile.readAsString();
         final List list = jsonDecode(content);
-        _trucks = list.map((e) => Truck.fromJson(e as Map<String, dynamic>)).toList();
+        _trucks = list
+            .map((e) => Truck.fromJson(e as Map<String, dynamic>))
+            .toList();
       }
 
       final parcelsFile = _getFile('parcels.json');
       if (await parcelsFile.exists()) {
         final content = await parcelsFile.readAsString();
         final List list = jsonDecode(content);
-        _parcels = list.map((e) => Parcel.fromJson(e as Map<String, dynamic>)).toList();
+        _parcels = list
+            .map((e) => Parcel.fromJson(e as Map<String, dynamic>))
+            .toList();
       }
 
       final eventsFile = _getFile('events.json');
       if (await eventsFile.exists()) {
         final content = await eventsFile.readAsString();
         final List list = jsonDecode(content);
-        _events = list.map((e) => TrackingEvent.fromJson(e as Map<String, dynamic>)).toList();
+        _events = list
+            .map((e) => TrackingEvent.fromJson(e as Map<String, dynamic>))
+            .toList();
       }
 
       final settingsFile = _getFile('settings.json');
       if (await settingsFile.exists()) {
         final content = await settingsFile.readAsString();
-        _settings = AppSettings.fromJson(jsonDecode(content) as Map<String, dynamic>);
+        _settings = AppSettings.fromJson(
+          jsonDecode(content) as Map<String, dynamic>,
+        );
       }
 
       // Add demo data on very first launch if completely empty
@@ -250,13 +258,19 @@ class AppStore extends ChangeNotifier {
     try {
       final encoder = const JsonEncoder.withIndent('  ');
 
-      final trucksJson = encoder.convert(_trucks.map((e) => e.toJson()).toList());
+      final trucksJson = encoder.convert(
+        _trucks.map((e) => e.toJson()).toList(),
+      );
       await _atomicWrite('trucks.json', trucksJson);
 
-      final parcelsJson = encoder.convert(_parcels.map((e) => e.toJson()).toList());
+      final parcelsJson = encoder.convert(
+        _parcels.map((e) => e.toJson()).toList(),
+      );
       await _atomicWrite('parcels.json', parcelsJson);
 
-      final eventsJson = encoder.convert(_events.map((e) => e.toJson()).toList());
+      final eventsJson = encoder.convert(
+        _events.map((e) => e.toJson()).toList(),
+      );
       await _atomicWrite('events.json', eventsJson);
 
       final settingsJson = encoder.convert(_settings.toJson());
@@ -280,15 +294,19 @@ class AppStore extends ChangeNotifier {
 
   String nextCode() {
     final todayStr = DateFormat('yyyyMMdd').format(DateTime.now());
-    final todayCount = _parcels.where((p) {
-      final now = DateTime.now();
-      return p.createdAt.year == now.year &&
-          p.createdAt.month == now.month &&
-          p.createdAt.day == now.day;
-    }).length + 1;
+    final todayCount =
+        _parcels.where((p) {
+          final now = DateTime.now();
+          return p.createdAt.year == now.year &&
+              p.createdAt.month == now.month &&
+              p.createdAt.day == now.day;
+        }).length +
+        1;
 
     final seq = todayCount.toString().padLeft(4, '0');
-    final prefix = _settings.codePrefix.isNotEmpty ? _settings.codePrefix : 'RAYO';
+    final prefix = _settings.codePrefix.isNotEmpty
+        ? _settings.codePrefix
+        : 'RAYO';
     return '$prefix-$todayStr-$seq';
   }
 
@@ -313,7 +331,13 @@ class AppStore extends ChangeNotifier {
     }
   }
 
-  void setParcelStatus(String parcelId, ParcelStatus newStatus, {String note = '', double? lat, double? lng}) {
+  void setParcelStatus(
+    String parcelId,
+    ParcelStatus newStatus, {
+    String note = '',
+    double? lat,
+    double? lng,
+  }) {
     final index = _parcels.indexWhere((p) => p.id == parcelId);
     if (index != -1) {
       final old = _parcels[index].status;
@@ -338,8 +362,13 @@ class AppStore extends ChangeNotifier {
     final index = _parcels.indexWhere((p) => p.id == parcelId);
     if (index != -1) {
       _parcels[index] = _parcels[index].copyWith(truckID: truckId);
-      if (truckId != null && _parcels[index].status == ParcelStatus.registered) {
-        setParcelStatus(parcelId, ParcelStatus.loaded, note: 'Assigned to truck');
+      if (truckId != null &&
+          _parcels[index].status == ParcelStatus.registered) {
+        setParcelStatus(
+          parcelId,
+          ParcelStatus.loaded,
+          note: 'Assigned to truck',
+        );
       } else {
         notifyListeners();
         scheduleSave();
@@ -397,7 +426,9 @@ class AppStore extends ChangeNotifier {
     if (index != -1) {
       _trucks[index] = _trucks[index].copyWith(status: TruckStatus.onRoute);
       // Advance loaded parcels to inTransit
-      for (final p in _parcels.where((p) => p.truckID == truckId && p.status == ParcelStatus.loaded)) {
+      for (final p in _parcels.where(
+        (p) => p.truckID == truckId && p.status == ParcelStatus.loaded,
+      )) {
         setParcelStatus(p.id, ParcelStatus.inTransit, note: 'Route started');
       }
       notifyListeners();
@@ -433,7 +464,9 @@ class AppStore extends ChangeNotifier {
         from: from,
         to: to,
         note: note,
-        operatorName: _settings.operatorName.isNotEmpty ? _settings.operatorName : 'Dispatcher',
+        operatorName: _settings.operatorName.isNotEmpty
+            ? _settings.operatorName
+            : 'Dispatcher',
         latitude: lat,
         longitude: lng,
       ),
@@ -446,19 +479,26 @@ class AppStore extends ChangeNotifier {
 
   double loadRatioForTruck(Truck truck) {
     if (truck.capacityKg <= 0) return 0.0;
-    final activeParcels = _parcels.where((p) =>
-        p.truckID == truck.id &&
-        p.status != ParcelStatus.delivered &&
-        p.status != ParcelStatus.returned);
-    final totalWeight = activeParcels.fold<double>(0.0, (sum, p) => sum + p.weightKg);
+    final activeParcels = _parcels.where(
+      (p) =>
+          p.truckID == truck.id &&
+          p.status != ParcelStatus.delivered &&
+          p.status != ParcelStatus.returned,
+    );
+    final totalWeight = activeParcels.fold<double>(
+      0.0,
+      (sum, p) => sum + p.weightKg,
+    );
     return (totalWeight / truck.capacityKg).clamp(0.0, 1.0);
   }
 
   double currentTruckWeight(Truck truck) {
-    final activeParcels = _parcels.where((p) =>
-        p.truckID == truck.id &&
-        p.status != ParcelStatus.delivered &&
-        p.status != ParcelStatus.returned);
+    final activeParcels = _parcels.where(
+      (p) =>
+          p.truckID == truck.id &&
+          p.status != ParcelStatus.delivered &&
+          p.status != ParcelStatus.returned,
+    );
     return activeParcels.fold<double>(0.0, (sum, p) => sum + p.weightKg);
   }
 
@@ -502,7 +542,9 @@ class AppStore extends ChangeNotifier {
 
   String exportParcelsCsv() {
     final buffer = StringBuffer();
-    buffer.writeln('code,status,priority,recipient_name,recipient_phone,recipient_city,recipient_address,weight_kg,cod_amount,truck_plate,created_at');
+    buffer.writeln(
+      'code,status,priority,recipient_name,recipient_phone,recipient_city,recipient_address,weight_kg,cod_amount,truck_plate,created_at',
+    );
     final iso = DateFormat('yyyy-MM-dd HH:mm:ss');
     for (final p in _parcels) {
       final truck = _trucks.firstWhere(

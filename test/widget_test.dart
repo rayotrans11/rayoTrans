@@ -22,10 +22,7 @@ void main() {
     final parcel = Parcel(
       id: 'parcel-456',
       code: 'RAYO-20261113-0001',
-      recipient: const Person(
-        name: 'Amine Alaoui',
-        city: 'Rabat',
-      ),
+      recipient: const Person(name: 'Amine Alaoui', city: 'Rabat'),
       weightKg: 15.0,
       status: ParcelStatus.inTransit,
     );

@@ -49,17 +49,33 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
     _codeController = TextEditingController(text: p?.code ?? '');
     _senderNameController = TextEditingController(text: p?.sender.name ?? '');
     _senderPhoneController = TextEditingController(text: p?.sender.phone ?? '');
-    _senderAddressController = TextEditingController(text: p?.sender.address ?? '');
+    _senderAddressController = TextEditingController(
+      text: p?.sender.address ?? '',
+    );
     _senderCityController = TextEditingController(text: p?.sender.city ?? '');
 
-    _recipientNameController = TextEditingController(text: p?.recipient.name ?? '');
-    _recipientPhoneController = TextEditingController(text: p?.recipient.phone ?? '');
-    _recipientAddressController = TextEditingController(text: p?.recipient.address ?? '');
-    _recipientCityController = TextEditingController(text: p?.recipient.city ?? '');
+    _recipientNameController = TextEditingController(
+      text: p?.recipient.name ?? '',
+    );
+    _recipientPhoneController = TextEditingController(
+      text: p?.recipient.phone ?? '',
+    );
+    _recipientAddressController = TextEditingController(
+      text: p?.recipient.address ?? '',
+    );
+    _recipientCityController = TextEditingController(
+      text: p?.recipient.city ?? '',
+    );
 
-    _weightController = TextEditingController(text: p != null && p.weightKg > 0 ? p.weightKg.toString() : '');
-    _codController = TextEditingController(text: p?.codAmount != null ? p!.codAmount.toString() : '');
-    _descriptionController = TextEditingController(text: p?.descriptionText ?? '');
+    _weightController = TextEditingController(
+      text: p != null && p.weightKg > 0 ? p.weightKg.toString() : '',
+    );
+    _codController = TextEditingController(
+      text: p?.codAmount != null ? p!.codAmount.toString() : '',
+    );
+    _descriptionController = TextEditingController(
+      text: p?.descriptionText ?? '',
+    );
     _notesController = TextEditingController(text: p?.notes ?? '');
 
     _priority = p?.priority ?? Priority.normal;
@@ -148,7 +164,10 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
             children: [
               // Top Bar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     IconButton(
@@ -157,17 +176,25 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                     ),
                     Text(
                       isEditing ? 'Edit Parcel' : context.tr('new_parcel'),
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: RayoColors.primaryBlue,
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: _save,
-                      child: Text(context.tr('save'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(
+                        context.tr('save'),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
@@ -177,7 +204,10 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -194,22 +224,36 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                                   controller: _codeController,
                                   decoration: InputDecoration(
                                     labelText: context.tr('tracking_code'),
-                                    prefixIcon: const Icon(CupertinoIcons.barcode),
+                                    prefixIcon: const Icon(
+                                      CupertinoIcons.barcode,
+                                    ),
                                     border: InputBorder.none,
                                   ),
-                                  validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+                                  validator: (v) =>
+                                      v == null || v.trim().isEmpty
+                                      ? 'Required'
+                                      : null,
                                 ),
                               ),
                               IconButton(
-                                icon: const Icon(CupertinoIcons.qrcode_viewfinder, color: RayoColors.primaryBlue),
+                                icon: const Icon(
+                                  CupertinoIcons.qrcode_viewfinder,
+                                  color: RayoColors.primaryBlue,
+                                ),
                                 tooltip: 'Scan Barcode',
                                 onPressed: () async {
                                   final scanned = await Navigator.push<String>(
                                     context,
-                                    CupertinoPageRoute(builder: (_) => const ScannerScreen(returnCodeOnly: true)),
+                                    CupertinoPageRoute(
+                                      builder: (_) => const ScannerScreen(
+                                        returnCodeOnly: true,
+                                      ),
+                                    ),
                                   );
                                   if (scanned != null && scanned.isNotEmpty) {
-                                    setState(() => _codeController.text = scanned);
+                                    setState(
+                                      () => _codeController.text = scanned,
+                                    );
                                   }
                                 },
                               ),
@@ -227,9 +271,19 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(CupertinoIcons.arrow_down_left_circle_fill, color: RayoColors.successGreen, size: 18),
+                                  const Icon(
+                                    CupertinoIcons.arrow_down_left_circle_fill,
+                                    color: RayoColors.successGreen,
+                                    size: 18,
+                                  ),
                                   const SizedBox(width: 8),
-                                  Text(context.tr('recipient'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                  Text(
+                                    context.tr('recipient'),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 14),
@@ -237,7 +291,9 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                                 controller: _recipientNameController,
                                 label: 'Full Name *',
                                 prefixIcon: CupertinoIcons.person,
-                                validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+                                validator: (v) => v == null || v.trim().isEmpty
+                                    ? 'Required'
+                                    : null,
                               ),
                               const SizedBox(height: 10),
                               GlassTextField(
@@ -281,9 +337,19 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(CupertinoIcons.arrow_up_right_circle_fill, color: RayoColors.primaryBlue, size: 18),
+                                  const Icon(
+                                    CupertinoIcons.arrow_up_right_circle_fill,
+                                    color: RayoColors.primaryBlue,
+                                    size: 18,
+                                  ),
                                   const SizedBox(width: 8),
-                                  Text(context.tr('sender'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                  Text(
+                                    context.tr('sender'),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 14),
@@ -329,52 +395,85 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Package & Cargo Info', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              const Text(
+                                'Package & Cargo Info',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                               const SizedBox(height: 14),
                               Row(
                                 children: [
                                   Expanded(
                                     child: GlassTextField(
                                       controller: _weightController,
-                                      label: 'Weight (${store.settings.weightUnit})',
+                                      label:
+                                          'Weight (${store.settings.weightUnit})',
                                       prefixIcon: CupertinoIcons.gauge,
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                            decimal: true,
+                                          ),
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: GlassTextField(
                                       controller: _codController,
-                                      label: 'COD (${store.settings.currencySymbol})',
+                                      label:
+                                          'COD (${store.settings.currencySymbol})',
                                       prefixIcon: CupertinoIcons.money_dollar,
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                            decimal: true,
+                                          ),
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 14),
                               // Priority Segmented
-                              const Text('Priority Level', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                              const Text(
+                                'Priority Level',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               Row(
                                 children: Priority.values.map((pr) {
                                   final sel = _priority == pr;
                                   return Expanded(
                                     child: GestureDetector(
-                                      onTap: () => setState(() => _priority = pr),
+                                      onTap: () =>
+                                          setState(() => _priority = pr),
                                       child: Container(
-                                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        margin: const EdgeInsets.symmetric(
+                                          horizontal: 4,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
                                         decoration: BoxDecoration(
-                                          color: sel ? RayoColors.primaryBlue : Colors.grey.withValues(alpha: 0.1),
-                                          borderRadius: BorderRadius.circular(12),
+                                          color: sel
+                                              ? RayoColors.primaryBlue
+                                              : Colors.grey.withValues(
+                                                  alpha: 0.1,
+                                                ),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                         ),
                                         alignment: Alignment.center,
                                         child: Text(
                                           context.tr(pr.translationKey),
                                           style: TextStyle(
                                             color: sel ? Colors.white : null,
-                                            fontWeight: sel ? FontWeight.bold : FontWeight.normal,
+                                            fontWeight: sel
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
                                             fontSize: 12,
                                           ),
                                         ),
@@ -390,10 +489,15 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Assign to Truck',
                                   prefixIcon: const Icon(CupertinoIcons.bus),
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
                                 ),
                                 items: [
-                                  const DropdownMenuItem(value: null, child: Text('None (Unassigned)')),
+                                  const DropdownMenuItem(
+                                    value: null,
+                                    child: Text('None (Unassigned)'),
+                                  ),
                                   ...store.trucks.map(
                                     (t) => DropdownMenuItem(
                                       value: t.id,
@@ -401,7 +505,8 @@ class _ParcelFormScreenState extends State<ParcelFormScreen> {
                                     ),
                                   ),
                                 ],
-                                onChanged: (val) => setState(() => _selectedTruckId = val),
+                                onChanged: (val) =>
+                                    setState(() => _selectedTruckId = val),
                               ),
                               const SizedBox(height: 12),
                               GlassTextField(

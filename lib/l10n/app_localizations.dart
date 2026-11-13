@@ -64,7 +64,8 @@ class RayoLocalizations {
       'import_backup': 'Import Backup',
       'export_csv': 'Export CSV',
       'erase_all': 'Erase All Data',
-      'erase_confirm': 'This cannot be undone. Make sure you exported a backup.',
+      'erase_confirm':
+          'This cannot be undone. Make sure you exported a backup.',
       'general': 'General',
       'appearance': 'Appearance',
       'security': 'Security',
@@ -95,9 +96,11 @@ class RayoLocalizations {
       'priority_high': 'High',
       'priority_urgent': 'Urgent',
       'welcome_title': 'Welcome to Rayo',
-      'welcome_subtitle': 'The native Liquid Glass offline fleet & parcel tracker.',
+      'welcome_subtitle':
+          'The native Liquid Glass offline fleet & parcel tracker.',
       'privacy_title': '100% Offline & Private',
-      'privacy_subtitle': 'Your data never leaves your device. No cloud, no database, no tracking.',
+      'privacy_subtitle':
+          'Your data never leaves your device. No cloud, no database, no tracking.',
       'privacy_policy': 'Privacy Policy',
       'get_started': 'Get Started',
       'continue_text': 'Continue',
@@ -165,7 +168,8 @@ class RayoLocalizations {
       'import_backup': 'Importer sauvegarde',
       'export_csv': 'Exporter en CSV',
       'erase_all': 'Effacer toutes les données',
-      'erase_confirm': 'Cette action est irréversible. Exportez une sauvegarde au préalable.',
+      'erase_confirm':
+          'Cette action est irréversible. Exportez une sauvegarde au préalable.',
       'general': 'Général',
       'appearance': 'Apparence',
       'security': 'Sécurité',
@@ -196,9 +200,11 @@ class RayoLocalizations {
       'priority_high': 'Élevé',
       'priority_urgent': 'Urgent',
       'welcome_title': 'Bienvenue sur Rayo',
-      'welcome_subtitle': 'Gestionnaire logistique Liquid Glass 100% hors-ligne.',
+      'welcome_subtitle':
+          'Gestionnaire logistique Liquid Glass 100% hors-ligne.',
       'privacy_title': '100% Privé & Hors-ligne',
-      'privacy_subtitle': 'Vos données ne quittent jamais votre appareil. Zéro cloud.',
+      'privacy_subtitle':
+          'Vos données ne quittent jamais votre appareil. Zéro cloud.',
       'privacy_policy': 'Politique de confidentialité',
       'get_started': 'Commencer',
       'continue_text': 'Continuer',
@@ -266,7 +272,8 @@ class RayoLocalizations {
       'import_backup': 'استيراد نسخة احتياطية',
       'export_csv': 'تصدير كملف CSV',
       'erase_all': 'مسح جميع البيانات',
-      'erase_confirm': 'لا يمكن التراجع عن هذا الإجراء. تأكد من تصدير نسخة احتياطية أولاً.',
+      'erase_confirm':
+          'لا يمكن التراجع عن هذا الإجراء. تأكد من تصدير نسخة احتياطية أولاً.',
       'general': 'عام',
       'appearance': 'المظهر',
       'security': 'الأمان',
@@ -297,7 +304,8 @@ class RayoLocalizations {
       'priority_high': 'مرتفع',
       'priority_urgent': 'عاجل',
       'welcome_title': 'مرحباً بك في رايو',
-      'welcome_subtitle': 'إدارة الشاحنات والطرود بتصميم الزجاج السائل أوفلاين بالكامل.',
+      'welcome_subtitle':
+          'إدارة الشاحنات والطرود بتصميم الزجاج السائل أوفلاين بالكامل.',
       'privacy_title': 'خاص 100% وبدون إنترنت',
       'privacy_subtitle': 'بياناتك ملك لك وتبقى حصرياً على جهازك بدون سحابة.',
       'privacy_policy': 'سياسة الخصوصية',
@@ -318,9 +326,7 @@ class RayoLocalizations {
 
   String tr(String key) {
     final lang = locale.languageCode;
-    return _localizedValues[lang]?[key] ??
-        _localizedValues['en']?[key] ??
-        key;
+    return _localizedValues[lang]?[key] ?? _localizedValues['en']?[key] ?? key;
   }
 }
 
@@ -329,7 +335,8 @@ class RayoLocalizationsDelegate
   const RayoLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'fr', 'ar'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      ['en', 'fr', 'ar'].contains(locale.languageCode);
 
   @override
   Future<RayoLocalizations> load(Locale locale) async {

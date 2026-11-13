@@ -38,7 +38,9 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
     _plateController = TextEditingController(text: t?.plate ?? '');
     _driverNameController = TextEditingController(text: t?.driverName ?? '');
     _driverPhoneController = TextEditingController(text: t?.driverPhone ?? '');
-    _capacityController = TextEditingController(text: t != null && t.capacityKg > 0 ? t.capacityKg.toString() : '3500');
+    _capacityController = TextEditingController(
+      text: t != null && t.capacityKg > 0 ? t.capacityKg.toString() : '3500',
+    );
     _notesController = TextEditingController(text: t?.notes ?? '');
     _status = t?.status ?? TruckStatus.available;
   }
@@ -94,7 +96,10 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
             children: [
               // Top Bar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     IconButton(
@@ -103,17 +108,25 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
                     ),
                     Text(
                       isEditing ? 'Edit Truck' : context.tr('new_truck'),
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: RayoColors.primaryBlue,
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: _save,
-                      child: Text(context.tr('save'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(
+                        context.tr('save'),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
@@ -123,7 +136,10 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -136,27 +152,41 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Vehicle Identification', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              const Text(
+                                'Vehicle Identification',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                               const SizedBox(height: 14),
                               GlassTextField(
                                 controller: _nameController,
                                 label: 'Vehicle Name / Model *',
                                 prefixIcon: CupertinoIcons.bus,
-                                validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+                                validator: (v) => v == null || v.trim().isEmpty
+                                    ? 'Required'
+                                    : null,
                               ),
                               const SizedBox(height: 10),
                               GlassTextField(
                                 controller: _plateController,
                                 label: 'License Plate *',
                                 prefixIcon: CupertinoIcons.tag,
-                                validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+                                validator: (v) => v == null || v.trim().isEmpty
+                                    ? 'Required'
+                                    : null,
                               ),
                               const SizedBox(height: 10),
                               GlassTextField(
                                 controller: _capacityController,
-                                label: 'Payload Capacity (${store.settings.weightUnit})',
+                                label:
+                                    'Payload Capacity (${store.settings.weightUnit})',
                                 prefixIcon: CupertinoIcons.gauge,
-                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
                               ),
                             ],
                           ),
@@ -170,7 +200,13 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Driver Assignment', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              const Text(
+                                'Driver Assignment',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                               const SizedBox(height: 14),
                               GlassTextField(
                                 controller: _driverNameController,
@@ -196,7 +232,13 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Current Status', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              const Text(
+                                'Current Status',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                               const SizedBox(height: 12),
                               Wrap(
                                 spacing: 8,
@@ -206,7 +248,8 @@ class _TruckFormScreenState extends State<TruckFormScreen> {
                                   return ChoiceChip(
                                     label: Text(context.tr(s.translationKey)),
                                     selected: isSel,
-                                    selectedColor: RayoColors.primaryBlue.withValues(alpha: 0.25),
+                                    selectedColor: RayoColors.primaryBlue
+                                        .withValues(alpha: 0.25),
                                     onSelected: (val) {
                                       if (val) setState(() => _status = s);
                                     },

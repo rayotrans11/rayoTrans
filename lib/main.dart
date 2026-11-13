@@ -59,11 +59,7 @@ class RayoTrackingApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('fr'),
-        Locale('ar'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
@@ -119,7 +115,9 @@ class _MainGateState extends State<MainGate> {
   }
 
   Future<void> _authenticate() async {
-    final ok = await RayoServices.authenticateBiometrics('Unlock Rayo Tracking');
+    final ok = await RayoServices.authenticateBiometrics(
+      'Unlock Rayo Tracking',
+    );
     setState(() {
       _isUnlocked = ok;
     });
@@ -130,11 +128,7 @@ class _MainGateState extends State<MainGate> {
     final store = context.watch<AppStore>();
 
     if (store.isLoading) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     // Biometrics Lock Screen
@@ -148,7 +142,11 @@ class _MainGateState extends State<MainGate> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(CupertinoIcons.lock_shield_fill, size: 54, color: RayoColors.primaryBlue),
+                  const Icon(
+                    CupertinoIcons.lock_shield_fill,
+                    size: 54,
+                    color: RayoColors.primaryBlue,
+                  ),
                   const SizedBox(height: 18),
                   const Text(
                     'Rayo Tracking Locked',
@@ -161,8 +159,13 @@ class _MainGateState extends State<MainGate> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: RayoColors.primaryBlue,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 28,
+                        vertical: 12,
+                      ),
                     ),
                     onPressed: _authenticate,
                     child: const Text('Unlock with Biometrics'),
@@ -177,9 +180,7 @@ class _MainGateState extends State<MainGate> {
 
     // Onboarding
     if (!store.settings.hasOnboarded) {
-      return OnboardingScreen(
-        onFinished: () => setState(() {}),
-      );
+      return OnboardingScreen(onFinished: () => setState(() {}));
     }
 
     return const AppHomeScreen();
@@ -202,7 +203,8 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final isWide = MediaQuery.of(context).size.width > 700;
 
     final screens = [
@@ -229,10 +231,14 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                       child: Container(
                         width: 90,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.6),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surface.withValues(alpha: 0.6),
                           border: Border(
                             right: BorderSide(
-                              color: Theme.of(context).brightness == Brightness.dark
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
                                   ? Colors.white.withValues(alpha: 0.1)
                                   : Colors.black.withValues(alpha: 0.08),
                             ),
@@ -247,15 +253,39 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                                 color: RayoColors.primaryBlue,
                                 borderRadius: BorderRadius.circular(14),
                               ),
-                              child: const Icon(CupertinoIcons.cube_box_fill, color: Colors.white, size: 24),
+                              child: const Icon(
+                                CupertinoIcons.cube_box_fill,
+                                color: Colors.white,
+                                size: 24,
+                              ),
                             ),
                             const SizedBox(height: 32),
-                            _railItem(0, CupertinoIcons.square_grid_2x2_fill, context.tr('dashboard')),
-                            _railItem(1, CupertinoIcons.archivebox_fill, context.tr('parcels')),
-                            _railItem(2, CupertinoIcons.bus, context.tr('trucks')),
-                            _railItem(3, CupertinoIcons.search, context.tr('search')),
+                            _railItem(
+                              0,
+                              CupertinoIcons.square_grid_2x2_fill,
+                              context.tr('dashboard'),
+                            ),
+                            _railItem(
+                              1,
+                              CupertinoIcons.archivebox_fill,
+                              context.tr('parcels'),
+                            ),
+                            _railItem(
+                              2,
+                              CupertinoIcons.bus,
+                              context.tr('trucks'),
+                            ),
+                            _railItem(
+                              3,
+                              CupertinoIcons.search,
+                              context.tr('search'),
+                            ),
                             const Spacer(),
-                            _railItem(4, CupertinoIcons.gear_alt_fill, context.tr('settings')),
+                            _railItem(
+                              4,
+                              CupertinoIcons.gear_alt_fill,
+                              context.tr('settings'),
+                            ),
                             const SizedBox(height: 24),
                           ],
                         ),
@@ -265,10 +295,7 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
 
                 // Main Active Content
                 Expanded(
-                  child: IndexedStack(
-                    index: _currentIndex,
-                    children: screens,
-                  ),
+                  child: IndexedStack(index: _currentIndex, children: screens),
                 ),
               ],
             ),
@@ -289,7 +316,8 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                             : Colors.white.withValues(alpha: 0.88),
                         border: Border(
                           top: BorderSide(
-                            color: Theme.of(context).brightness == Brightness.dark
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
                                 ? Colors.white.withValues(alpha: 0.15)
                                 : Colors.black.withValues(alpha: 0.08),
                             width: 0.5,
@@ -303,11 +331,36 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                           height: 52,
                           child: Row(
                             children: [
-                              _tabButton(0, CupertinoIcons.square_grid_2x2, CupertinoIcons.square_grid_2x2_fill, context.tr('dashboard')),
-                              _tabButton(1, CupertinoIcons.archivebox, CupertinoIcons.archivebox_fill, context.tr('parcels')),
-                              _tabButton(2, CupertinoIcons.bus, CupertinoIcons.bus, context.tr('trucks')),
-                              _tabButton(3, CupertinoIcons.search, CupertinoIcons.search, context.tr('search')),
-                              _tabButton(4, CupertinoIcons.gear_alt, CupertinoIcons.gear_alt_fill, context.tr('settings')),
+                              _tabButton(
+                                0,
+                                CupertinoIcons.square_grid_2x2,
+                                CupertinoIcons.square_grid_2x2_fill,
+                                context.tr('dashboard'),
+                              ),
+                              _tabButton(
+                                1,
+                                CupertinoIcons.archivebox,
+                                CupertinoIcons.archivebox_fill,
+                                context.tr('parcels'),
+                              ),
+                              _tabButton(
+                                2,
+                                CupertinoIcons.bus,
+                                CupertinoIcons.bus,
+                                context.tr('trucks'),
+                              ),
+                              _tabButton(
+                                3,
+                                CupertinoIcons.search,
+                                CupertinoIcons.search,
+                                context.tr('search'),
+                              ),
+                              _tabButton(
+                                4,
+                                CupertinoIcons.gear_alt,
+                                CupertinoIcons.gear_alt_fill,
+                                context.tr('settings'),
+                              ),
                             ],
                           ),
                         ),
@@ -322,7 +375,12 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
     );
   }
 
-  Widget _tabButton(int index, IconData unselectedIcon, IconData selectedIcon, String label) {
+  Widget _tabButton(
+    int index,
+    IconData unselectedIcon,
+    IconData selectedIcon,
+    String label,
+  ) {
     final isSelected = _currentIndex == index;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final activeColor = RayoColors.primaryBlue;
@@ -374,7 +432,9 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: isSelected ? RayoColors.primaryBlue.withValues(alpha: 0.2) : Colors.transparent,
+            color: isSelected
+                ? RayoColors.primaryBlue.withValues(alpha: 0.2)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(

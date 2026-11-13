@@ -47,7 +47,10 @@ class ParcelDetailScreen extends StatelessWidget {
             children: [
               // Top Bar
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     IconButton(
@@ -59,7 +62,10 @@ class ParcelDetailScreen extends StatelessWidget {
                       icon: const Icon(CupertinoIcons.printer_fill),
                       tooltip: context.tr('export_pdf'),
                       onPressed: () {
-                        RayoServices.printParcelPdf(parcel, parcel.truckID != null ? truck : null);
+                        RayoServices.printParcelPdf(
+                          parcel,
+                          parcel.truckID != null ? truck : null,
+                        );
                       },
                     ),
                     IconButton(
@@ -68,14 +74,19 @@ class ParcelDetailScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (_) => ParcelFormScreen(parcelToEdit: parcel),
+                            builder: (_) =>
+                                ParcelFormScreen(parcelToEdit: parcel),
                           ),
                         );
                       },
                     ),
                     IconButton(
-                      icon: const Icon(CupertinoIcons.trash, color: RayoColors.dangerRed),
-                      onPressed: () => _confirmDelete(context, store, parcel.id),
+                      icon: const Icon(
+                        CupertinoIcons.trash,
+                        color: RayoColors.dangerRed,
+                      ),
+                      onPressed: () =>
+                          _confirmDelete(context, store, parcel.id),
                     ),
                   ],
                 ),
@@ -85,7 +96,10 @@ class ParcelDetailScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -113,23 +127,44 @@ class ParcelDetailScreen extends StatelessWidget {
                                       const SizedBox(width: 6),
                                       GestureDetector(
                                         onTap: () {
-                                          Clipboard.setData(ClipboardData(text: parcel.code));
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text(context.tr('copied')), duration: const Duration(seconds: 1)),
+                                          Clipboard.setData(
+                                            ClipboardData(text: parcel.code),
+                                          );
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                context.tr('copied'),
+                                              ),
+                                              duration: const Duration(
+                                                seconds: 1,
+                                              ),
+                                            ),
                                           );
                                         },
-                                        child: const Icon(CupertinoIcons.doc_on_doc, size: 16, color: RayoColors.primaryBlue),
+                                        child: const Icon(
+                                          CupertinoIcons.doc_on_doc,
+                                          size: 16,
+                                          color: RayoColors.primaryBlue,
+                                        ),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 10),
-                                  StatusPill(status: parcel.status, fontSize: 13),
+                                  StatusPill(
+                                    status: parcel.status,
+                                    fontSize: 13,
+                                  ),
                                   const SizedBox(height: 12),
                                   Text(
                                     'Created: ${DateFormat('yyyy-MM-dd HH:mm').format(parcel.createdAt)}',
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withValues(alpha: 0.5),
                                     ),
                                   ),
                                 ],
@@ -155,7 +190,10 @@ class ParcelDetailScreen extends StatelessWidget {
                       // Fast Status Stepper Action Row
                       GlassCard(
                         cornerRadius: 20,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -165,19 +203,31 @@ class ParcelDetailScreen extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: RayoColors.primaryBlue,
                                     foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
                                   ),
                                   onPressed: () {
                                     HapticFeedback.lightImpact();
-                                    store.setParcelStatus(parcel.id, parcel.status.next!);
+                                    store.setParcelStatus(
+                                      parcel.id,
+                                      parcel.status.next!,
+                                    );
                                   },
-                                  icon: const Icon(CupertinoIcons.arrow_right_circle, size: 18),
+                                  icon: const Icon(
+                                    CupertinoIcons.arrow_right_circle,
+                                    size: 18,
+                                  ),
                                   label: Text(
                                     '${context.tr('advance')} (${context.tr(parcel.status.next!.translationKey)})',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -190,23 +240,27 @@ class ParcelDetailScreen extends StatelessWidget {
                                   color: Colors.grey.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Icon(CupertinoIcons.ellipsis, size: 20),
+                                child: const Icon(
+                                  CupertinoIcons.ellipsis,
+                                  size: 20,
+                                ),
                               ),
                               onSelected: (newStatus) {
                                 store.setParcelStatus(parcel.id, newStatus);
                               },
-                              itemBuilder: (context) => ParcelStatus.values.map((s) {
-                                return PopupMenuItem(
-                                  value: s,
-                                  child: Row(
-                                    children: [
-                                      StatusPill(status: s, fontSize: 10),
-                                      const SizedBox(width: 8),
-                                      Text(context.tr(s.translationKey)),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
+                              itemBuilder: (context) =>
+                                  ParcelStatus.values.map((s) {
+                                    return PopupMenuItem(
+                                      value: s,
+                                      child: Row(
+                                        children: [
+                                          StatusPill(status: s, fontSize: 10),
+                                          const SizedBox(width: 8),
+                                          Text(context.tr(s.translationKey)),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
                             ),
                           ],
                         ),
@@ -245,12 +299,28 @@ class ParcelDetailScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Shipment Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                            const Text(
+                              'Shipment Details',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
                             const SizedBox(height: 12),
-                            _detailRow('Weight', '${parcel.weightKg} ${store.settings.weightUnit}'),
-                            _detailRow('Priority', parcel.priority.name.toUpperCase()),
-                            if (parcel.codAmount != null && parcel.codAmount! > 0)
-                              _detailRow('COD Cash Due', '${parcel.codAmount} ${store.settings.currencySymbol}'),
+                            _detailRow(
+                              'Weight',
+                              '${parcel.weightKg} ${store.settings.weightUnit}',
+                            ),
+                            _detailRow(
+                              'Priority',
+                              parcel.priority.name.toUpperCase(),
+                            ),
+                            if (parcel.codAmount != null &&
+                                parcel.codAmount! > 0)
+                              _detailRow(
+                                'COD Cash Due',
+                                '${parcel.codAmount} ${store.settings.currencySymbol}',
+                              ),
                             if (parcel.descriptionText.isNotEmpty)
                               _detailRow('Description', parcel.descriptionText),
                             if (parcel.notes.isNotEmpty)
@@ -262,16 +332,31 @@ class ParcelDetailScreen extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text('Assigned Truck', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                    const Text(
+                                      'Assigned Truck',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      parcel.truckID != null ? '${truck.name} (${truck.plate})' : 'Not Assigned',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                      parcel.truckID != null
+                                          ? '${truck.name} (${truck.plate})'
+                                          : 'Not Assigned',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 TextButton(
-                                  onPressed: () => _showAssignTruckDialog(context, store, parcel),
+                                  onPressed: () => _showAssignTruckDialog(
+                                    context,
+                                    store,
+                                    parcel,
+                                  ),
                                   child: Text(context.tr('assign_truck')),
                                 ),
                               ],
@@ -285,11 +370,22 @@ class ParcelDetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(context.tr('timeline'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          Text(
+                            context.tr('timeline'),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                           IconButton(
-                            icon: const Icon(CupertinoIcons.plus_bubble, size: 20, color: RayoColors.primaryBlue),
+                            icon: const Icon(
+                              CupertinoIcons.plus_bubble,
+                              size: 20,
+                              color: RayoColors.primaryBlue,
+                            ),
                             tooltip: 'Add Note Log',
-                            onPressed: () => _showAddNoteDialog(context, store, parcel.id),
+                            onPressed: () =>
+                                _showAddNoteDialog(context, store, parcel.id),
                           ),
                         ],
                       ),
@@ -298,7 +394,9 @@ class ParcelDetailScreen extends StatelessWidget {
                       if (timeline.isEmpty)
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text('No tracking events for this parcel yet.'),
+                          child: Text(
+                            'No tracking events for this parcel yet.',
+                          ),
                         )
                       else
                         ListView.builder(
@@ -319,14 +417,20 @@ class ParcelDetailScreen extends StatelessWidget {
                                         height: 12,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: isFirst ? RayoColors.primaryBlue : Colors.grey.withValues(alpha: 0.5),
+                                          color: isFirst
+                                              ? RayoColors.primaryBlue
+                                              : Colors.grey.withValues(
+                                                  alpha: 0.5,
+                                                ),
                                         ),
                                       ),
                                       if (index < timeline.length - 1)
                                         Expanded(
                                           child: Container(
                                             width: 2,
-                                            color: Colors.grey.withValues(alpha: 0.3),
+                                            color: Colors.grey.withValues(
+                                              alpha: 0.3,
+                                            ),
                                           ),
                                         ),
                                     ],
@@ -334,35 +438,56 @@ class ParcelDetailScreen extends StatelessWidget {
                                   const SizedBox(width: 14),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 16),
+                                      padding: const EdgeInsets.only(
+                                        bottom: 16,
+                                      ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             children: [
-                                              StatusPill(status: event.to, fontSize: 10),
+                                              StatusPill(
+                                                status: event.to,
+                                                fontSize: 10,
+                                              ),
                                               const Spacer(),
                                               Text(
-                                                DateFormat('HH:mm · MMM d').format(event.timestamp),
+                                                DateFormat(
+                                                  'HH:mm · MMM d',
+                                                ).format(event.timestamp),
                                                 style: TextStyle(
                                                   fontSize: 11,
-                                                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withValues(alpha: 0.5),
                                                 ),
                                               ),
                                             ],
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            event.note.isNotEmpty ? event.note : 'Status changed',
-                                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                                            event.note.isNotEmpty
+                                                ? event.note
+                                                : 'Status changed',
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
-                                          if (event.operatorName.isNotEmpty) ...[
+                                          if (event
+                                              .operatorName
+                                              .isNotEmpty) ...[
                                             const SizedBox(height: 2),
                                             Text(
                                               'By: ${event.operatorName}',
                                               style: TextStyle(
                                                 fontSize: 11,
-                                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withValues(alpha: 0.6),
                                               ),
                                             ),
                                           ],
@@ -387,7 +512,12 @@ class ParcelDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _personCard(BuildContext context, {required String title, required Person person, required bool isRecipient}) {
+  Widget _personCard(
+    BuildContext context, {
+    required String title,
+    required Person person,
+    required bool isRecipient,
+  }) {
     return GlassCard(
       cornerRadius: 18,
       padding: const EdgeInsets.all(14),
@@ -397,34 +527,63 @@ class ParcelDetailScreen extends StatelessWidget {
           Row(
             children: [
               Icon(
-                isRecipient ? CupertinoIcons.arrow_down_left_circle_fill : CupertinoIcons.arrow_up_right_circle_fill,
+                isRecipient
+                    ? CupertinoIcons.arrow_down_left_circle_fill
+                    : CupertinoIcons.arrow_up_right_circle_fill,
                 size: 16,
-                color: isRecipient ? RayoColors.successGreen : RayoColors.primaryBlue,
+                color: isRecipient
+                    ? RayoColors.successGreen
+                    : RayoColors.primaryBlue,
               ),
               const SizedBox(width: 6),
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
-          Text(person.name.isNotEmpty ? person.name : 'Unknown', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+          Text(
+            person.name.isNotEmpty ? person.name : 'Unknown',
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+          ),
           const SizedBox(height: 4),
           if (person.phone.isNotEmpty)
             GestureDetector(
               onTap: () => launchUrl(Uri.parse('tel:${person.phone}')),
               child: Row(
                 children: [
-                  const Icon(CupertinoIcons.phone, size: 12, color: RayoColors.primaryBlue),
+                  const Icon(
+                    CupertinoIcons.phone,
+                    size: 12,
+                    color: RayoColors.primaryBlue,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     person.phone,
-                    style: const TextStyle(fontSize: 12, color: RayoColors.primaryBlue, decoration: TextDecoration.underline),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: RayoColors.primaryBlue,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ],
               ),
             ),
           if (person.city.isNotEmpty) ...[
             const SizedBox(height: 4),
-            Text('${person.city} · ${person.address}', style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6))),
+            Text(
+              '${person.city} · ${person.address}',
+              style: TextStyle(
+                fontSize: 11,
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+            ),
           ],
         ],
       ),
@@ -438,7 +597,10 @@ class ParcelDetailScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(fontSize: 13, color: Colors.grey)),
-          Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );
@@ -470,7 +632,11 @@ class ParcelDetailScreen extends StatelessWidget {
     );
   }
 
-  void _showAssignTruckDialog(BuildContext context, AppStore store, Parcel parcel) {
+  void _showAssignTruckDialog(
+    BuildContext context,
+    AppStore store,
+    Parcel parcel,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -482,11 +648,22 @@ class ParcelDetailScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(context.tr('assign_truck'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(
+                context.tr('assign_truck'),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
               const SizedBox(height: 12),
               ListTile(
                 title: const Text('None (Unassign)'),
-                trailing: parcel.truckID == null ? const Icon(CupertinoIcons.checkmark, color: RayoColors.primaryBlue) : null,
+                trailing: parcel.truckID == null
+                    ? const Icon(
+                        CupertinoIcons.checkmark,
+                        color: RayoColors.primaryBlue,
+                      )
+                    : null,
                 onTap: () {
                   store.assignParcelToTruck(parcel.id, null);
                   Navigator.pop(ctx);
@@ -497,7 +674,12 @@ class ParcelDetailScreen extends StatelessWidget {
                 return ListTile(
                   title: Text(t.name),
                   subtitle: Text('${t.plate} · ${t.driverName}'),
-                  trailing: isCurrent ? const Icon(CupertinoIcons.checkmark, color: RayoColors.primaryBlue) : null,
+                  trailing: isCurrent
+                      ? const Icon(
+                          CupertinoIcons.checkmark,
+                          color: RayoColors.primaryBlue,
+                        )
+                      : null,
                   onTap: () {
                     store.assignParcelToTruck(parcel.id, t.id);
                     Navigator.pop(ctx);
@@ -511,7 +693,11 @@ class ParcelDetailScreen extends StatelessWidget {
     );
   }
 
-  void _showAddNoteDialog(BuildContext context, AppStore store, String parcelId) {
+  void _showAddNoteDialog(
+    BuildContext context,
+    AppStore store,
+    String parcelId,
+  ) {
     final noteController = TextEditingController();
     showCupertinoDialog(
       context: context,
@@ -534,8 +720,14 @@ class ParcelDetailScreen extends StatelessWidget {
             isDefaultAction: true,
             onPressed: () {
               if (noteController.text.trim().isNotEmpty) {
-                final parcel = store.parcels.firstWhere((p) => p.id == parcelId);
-                store.setParcelStatus(parcelId, parcel.status, note: noteController.text.trim());
+                final parcel = store.parcels.firstWhere(
+                  (p) => p.id == parcelId,
+                );
+                store.setParcelStatus(
+                  parcelId,
+                  parcel.status,
+                  note: noteController.text.trim(),
+                );
               }
               Navigator.pop(ctx);
             },

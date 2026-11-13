@@ -1,0 +1,22 @@
+{
+  "project": "RayoTrack",
+  "platform": "ios",
+  "github": {
+    "owner": "rayotrans11",
+    "repo": "rayoTrans"
+  },
+  "provider": "github",
+  "codemagic": {},
+  "bitrise": {},
+  "ios": {
+    "path": "ios",
+    "bundleId": "com.rayo.transtrack",
+    "configuration": "Release"
+  },
+  "flutter": {
+    "watch": {}
+  },
+  "reactNative": {},
+  "kmp": {},
+  "mobai": {}
+}
